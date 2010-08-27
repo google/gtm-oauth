@@ -15,24 +15,24 @@ With the Objective-C OAuth controllers, the web page can be presented as an iOS 
 
 == Using the iOS and Mac OAuth Controllers ==
 
-The OAuth controllers are useful for authenticating both to Google services and to and services other than Google's.
+The OAuth controllers are useful for authenticating both to Google servers and to other services.
 
 There are example iOS and Mac applications using the OAuth controllers in the library's [http://code.google.com/p/gtm-oauth/source/browse/#svn/trunk/Examples Examples directory].
 
-The project has targets for building a static library for iOS and a framework for Mac OS X. Alternatively, the source files and xibs may be dragged directly into your project file.
+The project has targets for building a static library for iOS and a framework for Mac OS X. Alternatively, the source files and xibs may be dragged directly into your project file and compiled with your application.
 
 The source files required are:
 
-||_iOS and Mac_||_iOS_||_Mac_||
+||_iOS and Mac OS X_||_iOS_||_Mac OS X_||
 ||GTMOAuthAuthentication.h/m<br>GTMOAuthSignIn.h/m<br>GTMHTTPFetcher.h/m||GTMOAuthViewControllerTouch.h/m<br>GTMOAuthViewTouch.xib (optional)||GTMOAuthWindowController.h/m<br>GTMOAuthWindow.xib||
 
-These source files are in the [http://code.google.com/p/gtm-oauth/source/browse/#svn/trunk/Source/ OAuth] and [http://code.google.com/p/gtm-http-fetcher/source/browse/#svn/trunk/Source/ fetcher] projects. groups of the library's [Source directory].
+These source files are in the project's [http://code.google.com/p/gtm-oauth/source/browse/#svn/trunk/Source/ source directory].
 
 === System Requirements ===
 
 The Mac controller is compatible with Mac OS X 10.5 and later. The iOS controller is compatible with iPhone OS 3 and later.
 
-The OAuth controllers require linking to the system frameworks Security.framework and SystemConfiguration.framework.
+The OAuth controllers require linking to the system frameworks Security.framework and !SystemConfiguration.framework.
  
 === Signing In ===
 
@@ -51,7 +51,8 @@ viewController = [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
                                                             delegate:self
                            finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
                              
-[[self navigationController] pushViewController:viewController animated:YES];
+[[self navigationController] pushViewController:viewController
+                                       animated:YES];
 }}}
 
 A Mac application would display sign-in as a sheet on the current window, like this:
@@ -70,9 +71,9 @@ windowController = [[[GTMOAuthWindowController alloc] initWithScope:scope
 }}}
 The *scope* is a string identifying what access is being requested. For access to more than one scope, separate the scopes with a space. 
 
-If your application uses the Google Data APIs Objective-C Client Library, it should get scopes from the service classes. For example, the scope of the Contacts API shown above is available as
+If your application uses the [http://code.google.com/p/gdata-objectivec-client/ Google Data APIs Objective-C Client Library], it should get scopes from the service classes. For example, the scope of the Contacts API shown above is available as
 {{{
- scope = [GTMServiceGoogleContacts authorizationScope];
+ scope = [GDataServiceGoogleContacts authorizationScope];
 }}}
 
 The *application service name* is used to save the token on the user’s keychain, and should identify both your application name and the service name(s). If appServiceName is nil, the token will not be saved, and the user will have to sign in again the next time the application is run.
@@ -94,16 +95,17 @@ If `[error code]` is kGTMOAuthErrorWindowClosed (-1000), then the user closed th
 
 === Using the Authentication Tokens ===
 
-If authentication succeeds, your application should retain the authentication object. It can be either stored into a library service object to authorize future API requests:
-
-{{{
-[[self contactService] setAuthorizer:auth];
-}}}
-
-or used directly to authorize NSMutableURLRequest objects:
+If authentication succeeds, your application should retain the authentication object. It can be used directly to authorize NSMutableURLRequest objects:
 
 {{{
 [auth authorizeRequest:myNSURLMutableRequest]
+}}}
+
+In the [http://code.google.com/p/gdata-objectivec-client/ GData library] the auth can be
+stored in a library service object to authorize future API requests:
+
+{{{
+[[self contactService] setAuthorizer:auth];
 }}}
 
 === Retrieving Authorization from the Keychain ===
