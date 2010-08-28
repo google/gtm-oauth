@@ -44,14 +44,12 @@ static NSString *const kAppServiceName = @”My Application: Google Contacts”;
 
 NSString *scope = @"http://www.google.com/m8/feeds/"; // scope for Google Contacts API
 
-GTMOAuthViewControllerTouch *viewController;
-viewController = [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
-                                                            language:nil
-                                                      appServiceName:kAppServiceName
-                                                            delegate:self
-                           finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
-                             
-[[self navigationController] pushViewController:viewController
+GTMOAuthViewControllerTouch *controller = [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
+                                                                                     language:nil
+                                                                               appServiceName:kAppServiceName
+                                                                                     delegate:self
+                                                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
+[[self navigationController] pushViewController:controller
                                        animated:YES];
 }}}
 
@@ -60,14 +58,13 @@ A Mac application would display sign-in as a sheet on the current window, like t
 {{{
 #import "GTMOAuthWindowController.h"
 
-GTMOAuthWindowController *windowController;
-windowController = [[[GTMOAuthWindowController alloc] initWithScope:scope
-                                                           language:nil
-                                                     appServiceName:kAppServiceName
-                                                     resourceBundle:nil] autorelease];
-[windowController signInSheetModalForWindow:currentWindow
-                                   delegate:self
-                           finishedSelector:@selector(windowController:finishedWithAuth:error:)];
+GTMOAuthWindowController *controller = [[[GTMOAuthWindowController alloc] initWithScope:scope
+                                                                               language:nil
+                                                                         appServiceName:kAppServiceName
+                                                                         resourceBundle:nil] autorelease];
+[controller signInSheetModalForWindow:currentWindow
+                             delegate:self
+                     finishedSelector:@selector(windowController:finishedWithAuth:error:)];
 }}}
 The *scope* is a string identifying what access is being requested. For access to more than one scope, separate the scopes with a space. 
 
@@ -133,6 +130,22 @@ To completely discard the user’s authorization, use the view or window control
 }}}
 
 Finally, release the authorization object.
+
+= Design Notes =
+
+The library's classes are designed in three layers.
+
+||Window/View Controller||user interface & application API||
+||Sign-In||networking (OAuth dance)||
+||Authentication||data handling, request signing, and keychain||
+
+Classes are written to be independent of the layers above them.
+
+The window and view controllers are retained only during the user's sign-in interaction. 
+
+The sign-in object is essentially invisible to the client application.
+
+The authentication object must be retained by the client app to sign NSMutableURLRequests. It is also used to save authentication to and read from the keychain.
 
 = Questions and Comments =
 
