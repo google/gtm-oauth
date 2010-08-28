@@ -34,7 +34,7 @@ The Mac controller is compatible with Mac OS X 10.5 and later. The iOS controlle
 
 The OAuth controllers require linking to the system frameworks Security.framework and !SystemConfiguration.framework.
  
-=== Signing In ===
+=== Signing In to Google Services ===
 
 To display a sign-in view, your iOS application makes these calls to push the view:
 {{{
@@ -44,11 +44,12 @@ static NSString *const kAppServiceName = @”My Application: Google Contacts”;
 
 NSString *scope = @"http://www.google.com/m8/feeds/"; // scope for Google Contacts API
 
-GTMOAuthViewControllerTouch *controller = [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
-                                                                                     language:nil
-                                                                               appServiceName:kAppServiceName
-                                                                                     delegate:self
-                                                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
+GTMOAuthViewControllerTouch *viewController;
+viewController = [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
+                                                            language:nil
+                                                      appServiceName:kAppServiceName
+                                                            delegate:self
+                                                    finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
 [[self navigationController] pushViewController:controller
                                        animated:YES];
 }}}
@@ -58,10 +59,11 @@ A Mac application would display sign-in as a sheet on the current window, like t
 {{{
 #import "GTMOAuthWindowController.h"
 
-GTMOAuthWindowController *controller = [[[GTMOAuthWindowController alloc] initWithScope:scope
-                                                                               language:nil
-                                                                         appServiceName:kAppServiceName
-                                                                         resourceBundle:nil] autorelease];
+GTMOAuthWindowController *windowController;
+windowController = [[[GTMOAuthWindowController alloc] initWithScope:scope
+                                                           language:nil
+                                                     appServiceName:kAppServiceName
+                                                     resourceBundle:nil] autorelease];
 [controller signInSheetModalForWindow:currentWindow
                              delegate:self
                      finishedSelector:@selector(windowController:finishedWithAuth:error:)];
@@ -130,6 +132,90 @@ To completely discard the user’s authorization, use the view or window control
 }}}
 
 Finally, release the authorization object.
+
+=== Signing in to non-Google Services ===
+
+Most Google services allow authentication with an "anonymous" consumer key and secret. Most other OAuth services require that applications authenticate with pre-assigned consumer key and secret strings.
+
+To use the OAuth controllers with services other than Google APIs, your application should create an authentication object with the appropriate keys, like this:
+{{{
+- (GTMOAuthAuthentication *)myCustomAuth {
+  NSString *myConsumerKey = @"abcd";    // pre-registered with service
+  NSString *myConsumerSecret = @"efgh"; // pre-assigned by service
+
+  GTMOAuthAuthentication *auth;
+  auth = [[[GTMOAuthAuthentication alloc] initWithSignatureMethod:kGTMOAuthSignatureMethodHMAC_SHA1
+                                                      consumerKey:myConsumerKey
+                                                       privateKey:myConsumerSecret] autorelease];
+
+  // setting the service name lets us inspect the auth object later to know
+  // what service it is for
+  [auth setServiceProvider:@"Custom Auth Service"];
+
+  return auth;
+}
+}}}
+
+Displaying the sign-in view with a custom auth also requires providing the OAuth endpoints and scope string to the controller, as shown here:
+
+{{{
+- (void)signInToCustomService {
+
+  NSURL *requestURL = [NSURL URLWithString:@"http://example.com/oauth/request_token"];
+  NSURL *accessURL = [NSURL URLWithString:@"http://example.com/oauth/access_token"];
+  NSURL *authorizeURL = [NSURL URLWithString:@"http://example.com/oauth/authorize"];
+  NSString *scope = @"http://example.com/scope";
+
+  GTMOAuthAuthentication *auth = [self myCustomAuth];
+
+  // set the callback URL to which the site should redirect, and for which
+  // the OAuth controller should look to determine when sign-in has
+  // finished or been canceled
+  //
+  // This URL does not need to be for an actual web page
+  [auth setCallback:@"http://www.example.com/OAuthCallback"];
+
+  // Display the autentication view
+  GTMOAuthViewControllerTouch *viewController;
+  viewController = [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
+                                                              language:nil
+                                                       requestTokenURL:requestURL
+                                                     authorizeTokenURL:authorizeURL
+                                                        accessTokenURL:accessURL
+                                                        authentication:auth
+                                                        appServiceName:@"My App: Custom Service"
+                                                              delegate:self
+                                                      finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
+
+  [[self navigationController] pushViewController:viewController
+                                         animated:YES];
+}
+}}}
+
+When the application launches again, it can read the custom authentication from the keychain, as here:
+
+{{{
+- (void)awakeFromNib {
+  // Get the saved authentication, if any, from the keychain.
+  GTMOAuthAuthentication *auth = [self myCustomAuth];
+  if (auth) {
+    BOOL didAuth = [GTMOAuthViewControllerTouch authorizeFromKeychainForName:@"My App: Custom Service"
+                                                              authentication:auth];
+    // if the auth object contains an access token, didAuth is now true
+  }
+
+  // retain the authentication object, which holds the auth tokens
+  //
+  // we can determine later if the auth object contains an access token
+  // by calling its -canAuthorize method
+  [self setAuthentication:auth];
+}
+}}}
+
+The auth object can be used directly to authorize NSMutableURLRequest objects:
+{{{
+[auth authorizeRequest:myNSURLMutableRequest]
+}}}
 
 = Design Notes =
 
