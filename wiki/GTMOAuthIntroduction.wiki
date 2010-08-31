@@ -13,7 +13,7 @@ The server generates a web page for the user to sign in with her name and passwo
 
 With the Objective-C OAuth controllers, the web page can be presented as an iOS view or a Mac sheet within your application. The controllers also provide authentication objects that simplify your application's future requests for the user's data.
 
-== Using the iOS and Mac OAuth Controllers ==
+== Using the iOS and Mac OS X OAuth Controllers ==
 
 The OAuth controllers are useful for authenticating both to Google servers and to other services.
 
