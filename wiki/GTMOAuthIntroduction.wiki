@@ -9,7 +9,7 @@
 
 [http://oauth.net/ OAuth] is a protocol allowing your application to obtain authorization to read or modify a user’s files or data on an external server.
 
-The server generates a web page for the user to sign in with her name and password, including a button explicitly granting access to some of her data. Upon successful authentication, the server gives tokens to your application representing the user's authorization.
+The server generates a web page for the user to sign in with her name and password, including a button explicitly granting access to some of her data. Upon successful authentication, the server gives a token to your application representing the user's authorization.
 
 With the Objective-C OAuth controllers, the web page can be presented as an iOS view or a Mac sheet within your application. The controllers also provide authentication objects that simplify your application's future requests for the user's data.
 
@@ -100,7 +100,7 @@ If authentication succeeds, your application should retain the authentication ob
 [auth authorizeRequest:myNSURLMutableRequest]
 }}}
 
-In the [http://code.google.com/p/gdata-objectivec-client/ GData library] the auth can be
+In the [http://code.google.com/p/gdata-objectivec-client/ Google Data APIs library] the auth can be
 stored in a library service object to authorize future API requests:
 
 {{{
@@ -229,14 +229,14 @@ Classes are written to be independent of the layers above them.
 
 The window and view controllers are retained only during the user's sign-in interaction. 
 
-The sign-in object is essentially invisible to the client application.
+The sign-in object is typically invisible to the client application.
 
-The authentication object must be retained by the client app to sign NSMutableURLRequests. It is also used to save authentication to and read from the keychain.
+The authentication object must be retained by the client app to sign NSMutableURLRequests. It is also used to save authentication to and read authentication from the keychain.
 
 = Questions and Comments =
 
 You can learn more about the OAuth protocol for desktop and mobile applications at [http://code.google.com/apis/accounts/docs/OAuthForInstalledApps.html Google's documentation].
 
-Additional documentation is available in the header files.
+Additional documentation for the controllers is available in the header files.
 
-If you have any questions or comments about the library or this documentation, please join the [http://groups.google.com/group/google-toolbox-for-mac discussion group].
+If you have any questions or comments about the library or this documentation, please join the [http://groups.google.com/group/gtm-oauth discussion group].
