@@ -1,0 +1,313 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F2446C5121F1F5B00FEE1DA /* GTMOAuthAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2446BF121F1F5B00FEE1DA /* GTMOAuthAuthentication.m */; };
+		4F2446C6121F1F5B00FEE1DA /* GTMOAuthSignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2446C1121F1F5B00FEE1DA /* GTMOAuthSignIn.m */; };
+		4F2446CD121F1F7200FEE1DA /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2446CA121F1F7200FEE1DA /* GTMHTTPFetcher.m */; };
+		4F24471B121F205800FEE1DA /* GTMOAuthWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F244718121F205800FEE1DA /* GTMOAuthWindow.xib */; };
+		4F24471C121F205800FEE1DA /* GTMOAuthWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F24471A121F205800FEE1DA /* GTMOAuthWindowController.m */; };
+		4F244728121F208500FEE1DA /* GTMHTTPFetchHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F244727121F208500FEE1DA /* GTMHTTPFetchHistory.m */; };
+		4F244A4D121F5CA400FEE1DA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F244A4C121F5CA400FEE1DA /* MainMenu.xib */; };
+		4FDE34C71132165E00700DC8 /* OAuthSampleAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDE34C61132165E00700DC8 /* OAuthSampleAppController.m */; };
+		4FDE353C1132197800700DC8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FDE353B1132197800700DC8 /* Security.framework */; };
+		4FDE359D11321EAA00700DC8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FDE359C11321EAA00700DC8 /* WebKit.framework */; };
+		4FF23D5911753FA800E96C5A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF23D5811753FA800E96C5A /* SystemConfiguration.framework */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* OAuthSample_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthSample_Prefix.pch; sourceTree = "<group>"; };
+		4F2446BE121F1F5B00FEE1DA /* GTMOAuthAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuthAuthentication.h; path = ../../Source/GTMOAuthAuthentication.h; sourceTree = SOURCE_ROOT; };
+		4F2446BF121F1F5B00FEE1DA /* GTMOAuthAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuthAuthentication.m; path = ../../Source/GTMOAuthAuthentication.m; sourceTree = SOURCE_ROOT; };
+		4F2446C0121F1F5B00FEE1DA /* GTMOAuthSignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuthSignIn.h; path = ../../Source/GTMOAuthSignIn.h; sourceTree = SOURCE_ROOT; };
+		4F2446C1121F1F5B00FEE1DA /* GTMOAuthSignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuthSignIn.m; path = ../../Source/GTMOAuthSignIn.m; sourceTree = SOURCE_ROOT; };
+		4F2446C9121F1F7200FEE1DA /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetcher.h; path = ../../HTTPFetcher/GTMHTTPFetcher.h; sourceTree = SOURCE_ROOT; };
+		4F2446CA121F1F7200FEE1DA /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetcher.m; path = ../../HTTPFetcher/GTMHTTPFetcher.m; sourceTree = SOURCE_ROOT; };
+		4F244718121F205800FEE1DA /* GTMOAuthWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GTMOAuthWindow.xib; path = ../../Source/Mac/GTMOAuthWindow.xib; sourceTree = SOURCE_ROOT; };
+		4F244719121F205800FEE1DA /* GTMOAuthWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuthWindowController.h; path = ../../Source/Mac/GTMOAuthWindowController.h; sourceTree = SOURCE_ROOT; };
+		4F24471A121F205800FEE1DA /* GTMOAuthWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuthWindowController.m; path = ../../Source/Mac/GTMOAuthWindowController.m; sourceTree = SOURCE_ROOT; };
+		4F244726121F208500FEE1DA /* GTMHTTPFetchHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetchHistory.h; path = ../../HTTPFetcher/GTMHTTPFetchHistory.h; sourceTree = SOURCE_ROOT; };
+		4F244727121F208500FEE1DA /* GTMHTTPFetchHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetchHistory.m; path = "../../../gtm-http-fetcher/Source/GTMHTTPFetchHistory.m"; sourceTree = SOURCE_ROOT; };
+		4F244A4C121F5CA400FEE1DA /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		4FDE34C51132165E00700DC8 /* OAuthSampleAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthSampleAppController.h; sourceTree = "<group>"; };
+		4FDE34C61132165E00700DC8 /* OAuthSampleAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAuthSampleAppController.m; sourceTree = "<group>"; };
+		4FDE353B1132197800700DC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		4FDE359C11321EAA00700DC8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		4FF23D5811753FA800E96C5A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* OAuthSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OAuthSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				4FDE353C1132197800700DC8 /* Security.framework in Frameworks */,
+				4FDE359D11321EAA00700DC8 /* WebKit.framework in Frameworks */,
+				4FF23D5911753FA800E96C5A /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4FDE34C51132165E00700DC8 /* OAuthSampleAppController.h */,
+				4FDE34C61132165E00700DC8 /* OAuthSampleAppController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FF23D5811753FA800E96C5A /* SystemConfiguration.framework */,
+				4FDE359C11321EAA00700DC8 /* WebKit.framework */,
+				4FDE353B1132197800700DC8 /* Security.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* OAuthSample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* OAuthSample */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				4FDE350F1132188300700DC8 /* OAuth Sources */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = OAuthSample;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* OAuthSample_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* Info.plist */,
+				4F244A4C121F5CA400FEE1DA /* MainMenu.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4FDE350F1132188300700DC8 /* OAuth Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4F244719121F205800FEE1DA /* GTMOAuthWindowController.h */,
+				4F24471A121F205800FEE1DA /* GTMOAuthWindowController.m */,
+				4F2446BE121F1F5B00FEE1DA /* GTMOAuthAuthentication.h */,
+				4F2446BF121F1F5B00FEE1DA /* GTMOAuthAuthentication.m */,
+				4F2446C0121F1F5B00FEE1DA /* GTMOAuthSignIn.h */,
+				4F2446C1121F1F5B00FEE1DA /* GTMOAuthSignIn.m */,
+				4F2446C9121F1F7200FEE1DA /* GTMHTTPFetcher.h */,
+				4F2446CA121F1F7200FEE1DA /* GTMHTTPFetcher.m */,
+				4F244726121F208500FEE1DA /* GTMHTTPFetchHistory.h */,
+				4F244727121F208500FEE1DA /* GTMHTTPFetchHistory.m */,
+				4F244718121F205800FEE1DA /* GTMOAuthWindow.xib */,
+			);
+			name = "OAuth Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* OAuthSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "OAuthSample" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OAuthSample;
+			productInstallPath = "$(HOME)/Applications";
+			productName = OAuthSample;
+			productReference = 8D1107320486CEB800E47090 /* OAuthSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "OAuthSample" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* OAuthSample */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* OAuthSample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F24471B121F205800FEE1DA /* GTMOAuthWindow.xib in Resources */,
+				4F244A4D121F5CA400FEE1DA /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				4FDE34C71132165E00700DC8 /* OAuthSampleAppController.m in Sources */,
+				4F2446C5121F1F5B00FEE1DA /* GTMOAuthAuthentication.m in Sources */,
+				4F2446C6121F1F5B00FEE1DA /* GTMOAuthSignIn.m in Sources */,
+				4F2446CD121F1F7200FEE1DA /* GTMHTTPFetcher.m in Sources */,
+				4F24471C121F205800FEE1DA /* GTMOAuthWindowController.m in Sources */,
+				4F244728121F208500FEE1DA /* GTMHTTPFetchHistory.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OAuthSample_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = OAuthSample;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OAuthSample_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = OAuthSample;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DDEBUG=1";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "OAuthSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "OAuthSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
