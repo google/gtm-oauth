@@ -306,10 +306,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = prefixTouch.pch;
 				INFOPLIST_FILE = "Info-iPhone.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\\\"$(SRCROOT)/../../Source/build/Release-iphonesimulator\\\"",
-				);
 				PRODUCT_NAME = "OAuthSample-iPhone";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -324,10 +320,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = prefixTouch.pch;
 				INFOPLIST_FILE = "Info-iPhone.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\\\"$(SRCROOT)/../../Source/build/Release-iphonesimulator\\\"",
-				);
 				PRODUCT_NAME = "OAuthSample-iPhone";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -344,10 +336,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = prefixTouch.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Source/build/Release-iphonesimulator\"",
-				);
 				PRODUCT_NAME = "OAuthSample-iPad";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -361,10 +349,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = prefixTouch.pch;
 				INFOPLIST_FILE = "Info-iPad.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Source/build/Release-iphonesimulator\"",
-				);
 				PRODUCT_NAME = "OAuthSample-iPad";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
