@@ -19,6 +19,8 @@ The OAuth controllers are useful for authenticating both to Google servers and t
 
 There are example iOS and Mac applications using the OAuth controllers in the library's [http://code.google.com/p/gtm-oauth/source/browse/#svn/trunk/Examples Examples directory].
 
+Controller methods with "Google" in the name are for use only with Google services.
+
 == Adding the Controllers to Your Project ==
 
 The project has targets for building a static library for iOS and a framework for Mac OS X. Alternatively, the source files and xibs may be dragged directly into your project file and compiled with your application.
@@ -138,7 +140,7 @@ Finally, release the authorization object.
 
 == Signing in to non-Google Services ==
 
-Most Google services allow authentication with an "anonymous" consumer key and secret. Most other OAuth services require that applications authenticate with pre-assigned consumer key and secret strings.
+To sign in to a non-Google service (and some Google services), you should consult the service's API documentation to obtain a pre-assigned consumer key and secret string, and to find the required scope string for API operations.
 
 To use the OAuth controllers with services other than Google APIs, your application should create an authentication object with the appropriate keys, like this:
 {{{
