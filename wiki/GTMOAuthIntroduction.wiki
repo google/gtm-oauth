@@ -153,7 +153,7 @@ To use the OAuth controllers with services other than Google APIs, your applicat
 
   // setting the service name lets us inspect the auth object later to know
   // what service it is for
-  [auth setServiceProvider:@"Custom Auth Service"];
+  auth.serviceProvider = @"Custom Auth Service";
 
   return auth;
 }
@@ -212,6 +212,14 @@ When the user signs in successfully or cancels signing in, the view or window co
 
 If `[error code]` is kGTMOAuthErrorWindowClosed (-1000), then the user closed the sign-in view before completing authorization. Otherwise, any error reflects the server response in validating the user's access.
 
+=== Using the Authentication Tokens ===
+
+If authentication succeeds, your application should retain the authentication object. It can be used directly to authorize NSMutableURLRequest objects:
+
+{{{
+[auth authorizeRequest:myNSURLMutableRequest];
+}}}
+
 === Retrieving Authorization from the Keychain ===
 
 If your application saves the authorization to the keychain (by setting the controller's appServiceName), it can be retrieved the next time the application launches:
@@ -238,11 +246,6 @@ If no authorization was saved, then “auth” will still be a valid authorizati
 
 {{{
  BOOL isSignedIn = [auth canAuthorize]; // returns NO if auth cannot authorize requests
-}}}
-
-The auth object can be used directly to authorize NSMutableURLRequest objects:
-{{{
-[auth authorizeRequest:myNSURLMutableRequest]
 }}}
 
 === Signing Out ===
