@@ -231,8 +231,9 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // the OAuth controller should look to determine when sign-in has
   // finished or been canceled
   //
-  // This URL does not need to be for an actual web page
-  [auth setCallback:@"http://www.google.com/OAuthCallback"];
+  // This URL does not need to be for an actual web page; it will not be
+  // loaded
+  [auth setCallback:@"http://www.example.com/OAuthCallback"];
 
   NSString *keychainAppServiceName = nil;
   if ([self shouldSaveInKeychain]) {

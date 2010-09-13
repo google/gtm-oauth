@@ -211,7 +211,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // finished or been canceled
   //
   // This URL does not need to be for an actual web page
-  [auth setCallback:@"http://www.google.com/OAuthCallback"];
+  [auth setCallback:@"http://www.example.com/OAuthCallback"];
 
   GTMOAuthWindowController *windowController;
   windowController = [[[GTMOAuthWindowController alloc] initWithScope:scope
