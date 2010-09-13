@@ -65,13 +65,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		080E96DDFE201D6D7F000001 /* Sample App Classes */ = {
 			isa = PBXGroup;
 			children = (
 				4FDE34C51132165E00700DC8 /* OAuthSampleAppController.h */,
 				4FDE34C61132165E00700DC8 /* OAuthSampleAppController.m */,
 			);
-			name = Classes;
+			name = "Sample App Classes";
 			sourceTree = "<group>";
 		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
@@ -106,7 +106,7 @@
 		29B97314FDCFA39411CA2CEA /* OAuthSample */ = {
 			isa = PBXGroup;
 			children = (
-				080E96DDFE201D6D7F000001 /* Classes */,
+				080E96DDFE201D6D7F000001 /* Sample App Classes */,
 				4FDE350F1132188300700DC8 /* OAuth Sources */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
