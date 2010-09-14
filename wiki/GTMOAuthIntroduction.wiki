@@ -97,7 +97,7 @@ When the user signs in successfully or cancels signing in, the view or window co
 
 If `[error code]` is kGTMOAuthErrorWindowClosed (-1000), then the user closed the sign-in view before completing authorization. Otherwise, any error reflects the server response in validating the user's access.
 
-The controllers also support Objective-C block completion handlers as alternatives to the delegate and finished selector.
+The controllers also support Objective-C block completion handlers as alternatives to the delegate and finished selectors.
 
 === Using the Authentication Tokens ===
 
@@ -216,7 +216,7 @@ When the user signs in successfully or cancels signing in, the view or window co
 
 If `[error code]` is kGTMOAuthErrorWindowClosed (-1000), then the user closed the sign-in view before completing authorization. Otherwise, any error reflects the server response in validating the user's access.
 
-The controllers also support Objective-C block completion handlers as alternatives to the delegate and finished selector.
+The controllers also support Objective-C block completion handlers as alternatives to the delegate and finished selectors.
 
 === Using the Authentication Tokens ===
 
