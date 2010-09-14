@@ -112,9 +112,31 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
               accessTokenURL:nil
               authentication:nil
               appServiceName:keychainAppServiceName
-                    delegate:(id)delegate
-            finishedSelector:(SEL)finishedSelector];
+                    delegate:delegate
+            finishedSelector:finishedSelector];
 }
+
+#if NS_BLOCKS_AVAILABLE
+- (id)initWithScope:(NSString *)scope
+           language:(NSString *)language
+     appServiceName:(NSString *)keychainAppServiceName
+  completionHandler:(void (^)(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error))handler {
+  // convenient entry point for Google authentication
+  self = [self initWithScope:scope
+                    language:language
+             requestTokenURL:nil
+           authorizeTokenURL:nil
+              accessTokenURL:nil
+              authentication:nil
+              appServiceName:keychainAppServiceName
+                    delegate:nil
+            finishedSelector:NULL];
+  if (self) {
+    completionBlock_ = [handler copy];
+  }
+  return self;
+}
+#endif
 
 - (id)initWithScope:(NSString *)scope
            language:(NSString *)language
@@ -183,6 +205,33 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   return self;
 }
 
+#if NS_BLOCKS_AVAILABLE
+- (id)initWithScope:(NSString *)scope
+           language:(NSString *)language
+    requestTokenURL:(NSURL *)requestURL
+  authorizeTokenURL:(NSURL *)authorizeURL
+     accessTokenURL:(NSURL *)accessURL
+     authentication:(GTMOAuthAuthentication *)auth
+     appServiceName:(NSString *)keychainAppServiceName
+  completionHandler:(void (^)(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error))handler {
+
+  // fall back to the non-blocks init
+  self = [self initWithScope:scope
+                    language:language
+             requestTokenURL:requestURL
+           authorizeTokenURL:authorizeURL
+              accessTokenURL:accessURL
+              authentication:auth
+              appServiceName:keychainAppServiceName
+                    delegate:nil
+            finishedSelector:NULL];
+  if (self) {
+    completionBlock_ = [handler copy];
+  }
+  return self;
+}
+#endif
+
 - (void)dealloc {
   [backButton_ release];
   [forwardButton_ release];
@@ -191,6 +240,9 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   [signIn_ setDelegate:nil];
   [signIn_ release];
   [request_ release];
+#if NS_BLOCKS_AVAILABLE
+  [completionBlock_ release];
+#endif
   [keychainApplicationServiceName_ release];
   [initialHTMLString_ release];
   [userData_ release];
@@ -381,6 +433,11 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   // (so no further callback is required)
   hasCalledFinished_ = YES;
 
+#if NS_BLOCKS_AVAILABLE
+  [completionBlock_ autorelease];
+  completionBlock_ = nil;
+#endif
+
   // The sign-in object's cancel method will close the window
   [signIn_ cancelSigningIn];
   hasDoneFinalRedirect_ = YES;
@@ -490,16 +547,28 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
       }
     }
 
-    SEL sel = finishedSelector_;
-    NSMethodSignature *sig = [delegate_ methodSignatureForSelector:sel];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-    [invocation setSelector:sel];
-    [invocation setTarget:delegate_];
-    [invocation setArgument:&self atIndex:2];
-    [invocation setArgument:&auth atIndex:3];
-    [invocation setArgument:&error atIndex:4];
-    [invocation invoke];
-    [signIn_ setUserData:nil];
+    if (delegate_ && finishedSelector_) {
+      SEL sel = finishedSelector_;
+      NSMethodSignature *sig = [delegate_ methodSignatureForSelector:sel];
+      NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+      [invocation setSelector:sel];
+      [invocation setTarget:delegate_];
+      [invocation setArgument:&self atIndex:2];
+      [invocation setArgument:&auth atIndex:3];
+      [invocation setArgument:&error atIndex:4];
+      [invocation invoke];
+      [signIn_ setUserData:nil];
+    }
+
+#if NS_BLOCKS_AVAILABLE
+    if (completionBlock_) {
+      completionBlock_(self, auth, error);
+
+      // release the block here to avoid a retain loop on the controller
+      [completionBlock_ autorelease];
+      completionBlock_ = nil;
+    }
+#endif
   }
 }
 

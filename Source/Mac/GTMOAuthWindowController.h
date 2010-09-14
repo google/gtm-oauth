@@ -98,6 +98,14 @@
   __weak id delegate_;
   SEL finishedSelector_;
 
+#if NS_BLOCKS_AVAILABLE
+  void (^completionBlock_)(GTMOAuthAuthentication *, NSError *);
+#elif !__LP64__
+  // placeholders: for 32-bit builds, keep the size of the object's ivar section
+  // the same with and without blocks
+  id completionPlaceholder_;
+#endif
+
   BOOL isWindowShown_;
 
   // paranoid flag to ensure we only close once during the sign-in sequence
@@ -206,6 +214,11 @@
 - (void)signInSheetModalForWindow:(NSWindow *)parentWindowOrNil
                          delegate:(id)delegate
                  finishedSelector:(SEL)finishedSelector;
+
+#if NS_BLOCKS_AVAILABLE
+- (void)signInSheetModalForWindow:(NSWindow *)parentWindowOrNil
+                completionHandler:(void (^)(GTMOAuthAuthentication *auth, NSError *error))handler;
+#endif
 
 - (void)cancelSigningIn;
 

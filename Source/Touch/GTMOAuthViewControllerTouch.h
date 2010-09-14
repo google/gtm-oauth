@@ -83,6 +83,7 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
 
 
 @class GTMOAuthSignIn;
+@class GTMOAuthViewControllerTouch;
 
 @interface GTMOAuthViewControllerTouch : UIViewController<UINavigationControllerDelegate, UIWebViewDelegate> {
  @private
@@ -101,6 +102,10 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
   // The user we're calling back
   id delegate_; // WEAK
   SEL finishedSelector_;
+
+#if NS_BLOCKS_AVAILABLE
+  void (^completionBlock_)(GTMOAuthViewControllerTouch *, GTMOAuthAuthentication *, NSError *);
+#endif
 
   NSString *keychainApplicationServiceName_;
 
@@ -191,6 +196,13 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
            delegate:(id)delegate
    finishedSelector:(SEL)finishedSelector;
 
+#if NS_BLOCKS_AVAILABLE
+- (id)initWithScope:(NSString *)scope
+           language:(NSString *)language
+     appServiceName:(NSString *)keychainAppServiceName
+  completionHandler:(void (^)(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error))handler;
+#endif
+
 // init method for authenticating to non-Google services, taking
 //   explicit endpoint URLs and an authentication object
 //
@@ -204,6 +216,17 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
      appServiceName:(NSString *)keychainAppServiceName
            delegate:(id)delegate
    finishedSelector:(SEL)finishedSelector;
+
+#if NS_BLOCKS_AVAILABLE
+- (id)initWithScope:(NSString *)scope
+           language:(NSString *)language
+    requestTokenURL:(NSURL *)requestURL
+  authorizeTokenURL:(NSURL *)authorizeURL
+     accessTokenURL:(NSURL *)accessURL
+     authentication:(GTMOAuthAuthentication *)auth
+     appServiceName:(NSString *)keychainAppServiceName
+  completionHandler:(void (^)(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error))handler;
+#endif
 
 // Override default in UIViewController. If we have a navigationController, ask
 // it. else default result (i.e., Portrait mode only).
