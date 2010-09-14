@@ -141,6 +141,9 @@ const char *kKeychainAccountName = "OAuth";
   [signIn_ release];
   [initialRequest_ release];
   [cookieStorage_ release];
+#if NS_BLOCKS_AVAILABLE
+  [completionBlock_ release];
+#endif
   [sheetModalForWindow_ release];
   [keychainApplicationServiceName_ release];
   [initialHTMLString_ release];
@@ -176,6 +179,14 @@ const char *kKeychainAccountName = "OAuth";
 
 #pragma mark -
 
+- (void)signInCommonForWindow:(NSWindow *)parentWindowOrNil {
+  sheetModalForWindow_ = [parentWindowOrNil retain];
+  hasDoneFinalRedirect_ = NO;
+  hasCalledFinished_ = NO;
+
+  [signIn_ startSigningIn];
+}
+
 - (void)signInSheetModalForWindow:(NSWindow *)parentWindowOrNil
                          delegate:(id)delegate
                  finishedSelector:(SEL)finishedSelector {
@@ -186,17 +197,28 @@ const char *kKeychainAccountName = "OAuth";
 
   delegate_ = delegate;
   finishedSelector_ = finishedSelector;
-  sheetModalForWindow_ = [parentWindowOrNil retain];
-  hasDoneFinalRedirect_ = NO;
-  hasCalledFinished_ = NO;
 
-  [signIn_ startSigningIn];
+  [self signInCommonForWindow:parentWindowOrNil];
 }
+
+#if NS_BLOCKS_AVAILABLE
+- (void)signInSheetModalForWindow:(NSWindow *)parentWindowOrNil
+                completionHandler:(void (^)(GTMOAuthAuthentication *, NSError *))handler {
+  completionBlock_ = [handler copy];
+
+  [self signInCommonForWindow:parentWindowOrNil];
+}
+#endif
 
 - (void)cancelSigningIn {
   // The user has explicitly asked us to cancel signing in
   // (so no further callback is required)
   hasCalledFinished_ = YES;
+
+#if NS_BLOCKS_AVAILABLE
+  [completionBlock_ autorelease];
+  completionBlock_ = nil;
+#endif
 
   // The signIn object's cancel method will close the window
   [signIn_ cancelSigningIn];
@@ -305,15 +327,27 @@ const char *kKeychainAccountName = "OAuth";
       }
     }
 
-    SEL sel = finishedSelector_;
-    NSMethodSignature *sig = [delegate_ methodSignatureForSelector:sel];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-    [invocation setSelector:sel];
-    [invocation setTarget:delegate_];
-    [invocation setArgument:&self atIndex:2];
-    [invocation setArgument:&auth atIndex:3];
-    [invocation setArgument:&error atIndex:4];
-    [invocation invoke];
+    if (delegate_ && finishedSelector_) {
+      SEL sel = finishedSelector_;
+      NSMethodSignature *sig = [delegate_ methodSignatureForSelector:sel];
+      NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+      [invocation setSelector:sel];
+      [invocation setTarget:delegate_];
+      [invocation setArgument:&self atIndex:2];
+      [invocation setArgument:&auth atIndex:3];
+      [invocation setArgument:&error atIndex:4];
+      [invocation invoke];
+    }
+
+#if NS_BLOCKS_AVAILABLE
+    if (completionBlock_) {
+      completionBlock_(auth, error);
+
+      // release the block here to avoid a retain loop on the controller
+      [completionBlock_ autorelease];
+      completionBlock_ = nil;
+    }
+#endif
 
     // we no longer need to retain ourselves
     //
