@@ -141,6 +141,7 @@ const char *kKeychainAccountName = "OAuth";
   [signIn_ release];
   [initialRequest_ release];
   [cookieStorage_ release];
+  [delegate_ release];
 #if NS_BLOCKS_AVAILABLE
   [completionBlock_ release];
 #endif
@@ -195,7 +196,7 @@ const char *kKeychainAccountName = "OAuth";
     @encode(GTMOAuthWindowController *), @encode(GTMOAuthAuthentication *),
     @encode(NSError *), 0);
 
-  delegate_ = delegate;
+  delegate_ = [delegate retain];
   finishedSelector_ = finishedSelector;
 
   [self signInCommonForWindow:parentWindowOrNil];
@@ -214,6 +215,9 @@ const char *kKeychainAccountName = "OAuth";
   // The user has explicitly asked us to cancel signing in
   // (so no further callback is required)
   hasCalledFinished_ = YES;
+
+  [delegate_ autorelease];
+  delegate_ = nil;
 
 #if NS_BLOCKS_AVAILABLE
   [completionBlock_ autorelease];
@@ -338,6 +342,9 @@ const char *kKeychainAccountName = "OAuth";
       [invocation setArgument:&error atIndex:4];
       [invocation invoke];
     }
+
+    [delegate_ autorelease];
+    delegate_ = nil;
 
 #if NS_BLOCKS_AVAILABLE
     if (completionBlock_) {

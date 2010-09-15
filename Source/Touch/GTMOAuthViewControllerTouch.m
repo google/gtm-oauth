@@ -152,7 +152,7 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 
   self = [super initWithNibName:nibName bundle:nil];
   if (self != nil) {
-    delegate_ = delegate;
+    delegate_ = [delegate retain];
     finishedSelector_ = finishedSelector;
 
     if (auth) {
@@ -240,6 +240,7 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   [signIn_ setDelegate:nil];
   [signIn_ release];
   [request_ release];
+  [delegate_ release];
 #if NS_BLOCKS_AVAILABLE
   [completionBlock_ release];
 #endif
@@ -433,6 +434,9 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   // (so no further callback is required)
   hasCalledFinished_ = YES;
 
+  [delegate_ autorelease];
+  delegate_ = nil;
+
 #if NS_BLOCKS_AVAILABLE
   [completionBlock_ autorelease];
   completionBlock_ = nil;
@@ -559,6 +563,9 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
       [invocation invoke];
       [signIn_ setUserData:nil];
     }
+
+    [delegate_ autorelease];
+    delegate_ = nil;
 
 #if NS_BLOCKS_AVAILABLE
     if (completionBlock_) {
