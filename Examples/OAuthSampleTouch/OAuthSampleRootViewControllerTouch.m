@@ -193,6 +193,10 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // consumer secret provided by Twitter for their API
   //
   // http://twitter.com/apps/
+  //
+  // The controller requires a URL redirect from the server upon completion,
+  // so your application should be registered with Twitter as a "web" app,
+  // not a "client" app
   NSString *myConsumerKey = @"";
   NSString *myConsumerSecret = @"";
 
