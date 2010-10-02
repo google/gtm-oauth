@@ -561,7 +561,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
       [invocation setArgument:&auth atIndex:3];
       [invocation setArgument:&error atIndex:4];
       [invocation invoke];
-      [signIn_ setUserData:nil];
     }
 
     [delegate_ autorelease];
@@ -576,6 +575,7 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
       completionBlock_ = nil;
     }
 #endif
+    [signIn_ setUserData:nil];
   }
 }
 
