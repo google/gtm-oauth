@@ -82,7 +82,7 @@ enum {
   id userData_;
 }
 
-@property (nonatomic, assign) __weak id delegate;
+@property (nonatomic, retain) id delegate;
 @property (nonatomic, retain) GTMOAuthAuthentication *authentication;
 @property (nonatomic, retain) id userData;
 
@@ -99,6 +99,8 @@ enum {
 // convenience entry point for accessing Google APIs; this creates the
 // authentication object, and uses standard URL endpoints for OAuth to
 // Google services
+//
+// The delegate is retained until sign-in has completed or been canceled
 - (id)initWithGoogleAuthenticationForScope:(NSString *)scope
                                   language:(NSString *)language
                                   delegate:(id)delegate
