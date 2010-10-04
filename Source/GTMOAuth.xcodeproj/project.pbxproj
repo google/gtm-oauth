@@ -68,6 +68,7 @@
 		4F244850121F2E6800FEE1DA /* GTMOAuthViewTouch.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GTMOAuthViewTouch.xib; path = Touch/GTMOAuthViewTouch.xib; sourceTree = "<group>"; };
 		4F244918121F370000FEE1DA /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetcher.h; path = ../HTTPFetcher/GTMHTTPFetcher.h; sourceTree = SOURCE_ROOT; };
 		4F244919121F370000FEE1DA /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetcher.m; path = ../HTTPFetcher/GTMHTTPFetcher.m; sourceTree = SOURCE_ROOT; };
+		4F3A8DBE125A61910080EB6C /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		4F7249AD122483B8001A4AD0 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F7249AE122483B8001A4AD0 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		4F7249C612248443001A4AD0 /* GTMOAuthLatitudeViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuthLatitudeViewControllerTouch.h; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 				4F724C76122494DC001A4AD0 /* Tests */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				4F724AA112248D35001A4AD0 /* Libraries */,
+				4F3A8DBE125A61910080EB6C /* ReleaseNotes.txt */,
 			);
 			name = OAuthTouchStaticLibrary;
 			sourceTree = "<group>";

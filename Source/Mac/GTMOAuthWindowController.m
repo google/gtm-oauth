@@ -125,14 +125,6 @@ const char *kKeychainAccountName = "OAuth";
 
     // create local, temporary storage for WebKit cookies
     cookieStorage_ = [[GTMCookieStorage alloc] init];
-
-    // to allow the user to autorelease this upon creation, the controller will
-    // retain itself until after the controller calls back to the user, or is
-    // explicitly cancelled
-    //
-    // This retain is balanced in -cancelSigningIn and when the user is called
-    // back in -signIn:finishedWithAuth:error:
-    [self retain];
   }
   return self;
 }
@@ -227,11 +219,6 @@ const char *kKeychainAccountName = "OAuth";
   // The signIn object's cancel method will close the window
   [signIn_ cancelSigningIn];
   hasDoneFinalRedirect_ = YES;
-
-  // we no longer need to retain ourselves
-  //
-  // this balances the retain in the init method
-  [self autorelease];
 }
 
 - (IBAction)closeWindow:(id)sender {
@@ -355,11 +342,6 @@ const char *kKeychainAccountName = "OAuth";
       completionBlock_ = nil;
     }
 #endif
-
-    // we no longer need to retain ourselves
-    //
-    // this balances the retain in the init method
-    [self autorelease];
   }
 }
 
