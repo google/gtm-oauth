@@ -66,7 +66,7 @@ enum {
   NSURL *authorizeURL_;
   NSURL *accessURL_;
 
-  __weak id delegate_;
+  id delegate_;
   SEL webRequestSelector_;
   SEL finishedSelector_;
 
