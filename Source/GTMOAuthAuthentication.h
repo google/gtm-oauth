@@ -140,6 +140,10 @@ _EXTERN NSString* const kGTMOAuthSignatureMethodRSA_SHA1  _INITIALIZE_AS(@"RSA-S
 // header
 @property (nonatomic, assign) BOOL shouldUseParamsToAuthorize;
 
+// property indicating if this auth has an access token so is suitable for
+// authorizing a request. This does not guarantee that the token is valid.
+@property (nonatomic, readonly) BOOL canAuthorize;
+
 // userData is retained for the convenience of the caller
 @property (nonatomic, retain) id userData;
 
@@ -165,7 +169,6 @@ _EXTERN NSString* const kGTMOAuthSignatureMethodRSA_SHA1  _INITIALIZE_AS(@"RSA-S
 
 // authorization entry point for GTL library
 - (BOOL)authorizeRequest:(NSMutableURLRequest *)request;
-- (BOOL)canAuthorize;
 
 // add OAuth headers
 //
@@ -194,7 +197,8 @@ _EXTERN NSString* const kGTMOAuthSignatureMethodRSA_SHA1  _INITIALIZE_AS(@"RSA-S
 - (void)setKeysForPersistenceResponseString:(NSString *)str;
 
 // method for distinguishing between the OAuth token being a request token and
-// an access token
+// an access token; use the canAuthorize property to determine if the
+// auth object has an access token
 - (BOOL)hasAccessToken;
 - (void)setHasAccessToken:(BOOL)flag;
 
