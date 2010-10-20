@@ -3,6 +3,11 @@ GTM OAuth Release Notes
 Project site:     http://code.google.com/p/gtm-oauth/
 Discussion group: http://groups.google.com/group/gtm-oauth
 
+18-Oct-2010
+
+Fix issue handling URLs with ports. (thanks dunhamsteve)
+
+
 4-Oct-2010
 
 Update SignIn object to retain the controller during sign-in.
