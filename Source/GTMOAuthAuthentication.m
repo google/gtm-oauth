@@ -564,9 +564,13 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
   } else {
     query = paramStr;
   }
-  
-  NSString *portStr = ([oldURL port] != nil ? [[oldURL port] stringValue] : @"");
-  
+
+  NSString *portStr = @"";
+  NSString *oldPort = [[oldURL port] stringValue];
+  if ([oldPort length] > 0) {
+    portStr = [@":" stringByAppendingString:oldPort];
+  }
+
   NSString *qMark = [query length] > 0 ? @"?" : @"";
   NSString *newURLStr = [NSString stringWithFormat:@"%@://%@%@%@%@%@",
                          [oldURL scheme], [oldURL host], portStr,
