@@ -184,7 +184,7 @@ const char *kKeychainAccountName = "OAuth";
                          delegate:(id)delegate
                  finishedSelector:(SEL)finishedSelector {
   // check the selector on debug builds
-  AssertSelectorNilOrImplementedWithArguments(delegate, finishedSelector,
+  GTMAssertSelectorNilOrImplementedWithArgs(delegate, finishedSelector,
     @encode(GTMOAuthWindowController *), @encode(GTMOAuthAuthentication *),
     @encode(NSError *), 0);
 
