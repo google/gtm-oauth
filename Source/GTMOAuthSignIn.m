@@ -102,9 +102,9 @@ const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
             finishedSelector:(SEL)finishedSelector {
 
   // check the selectors on debug builds
-  AssertSelectorNilOrImplementedWithArguments(delegate, webRequestSelector,
+  GTMAssertSelectorNilOrImplementedWithArgs(delegate, webRequestSelector,
     @encode(GTMOAuthSignIn *), @encode(NSURLRequest *), 0);
-  AssertSelectorNilOrImplementedWithArguments(delegate, finishedSelector,
+  GTMAssertSelectorNilOrImplementedWithArgs(delegate, finishedSelector,
     @encode(GTMOAuthSignIn *), @encode(GTMOAuthAuthentication *),
     @encode(NSError *), 0);
 
