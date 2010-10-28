@@ -149,7 +149,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
 - (void)signInToGoogle {
   [self signOut];
 
-  // For GData applications, the scope is available as
+  // For Google API applications, the scope is available as
   //   NSString *scope = [[service class] authorizationScope]
   NSString *scope = @"http://www.google.com/m8/feeds/";
 
@@ -255,7 +255,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
     //
     //   [auth authorizeRequest:myNSURLMutableRequest]
     //
-    // or store the authentication object into a GData service object like
+    // or store the authentication object into a Google API service object like
     //
     //   [[self contactService] setAuthorizer:auth];
 

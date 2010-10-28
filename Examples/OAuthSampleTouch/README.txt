@@ -1,4 +1,4 @@
-This sample calls the GData Cocoa Touch support for OAuth. (iPhone, iPod Touch, iPad.)
+This sample calls the GTM Cocoa Touch support for OAuth. (iPhone, iPod Touch, iPad.)
 
 Use the OAuthSampleTouch target if you have the iPhone SDK 3.2 or higher
 (requires a Mac with Snow Leopard (OS X 10.6.YY).)
