@@ -30,7 +30,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
 @interface OAuthSampleRootViewControllerTouch()
 - (void)viewController:(GTMOAuthViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuthAuthentication *)auth
-                 error:(NSError *)error;  
+                 error:(NSError *)error;
 - (void)incrementNetworkActivity:(NSNotification *)notify;
 - (void)decrementNetworkActivity:(NSNotification *)notify;
 - (void)signInNetworkLostOrFound:(NSNotification *)notify;
@@ -321,7 +321,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
 
   // Synchronous fetches like this are a really bad idea in Cocoa applications
   //
-  // For a very easy async alternative, we could use GDataHTTPFetcher
+  // For a very easy async alternative, we could use GTMHTTPFetcher
   NSError *error = nil;
   NSURLResponse *response = nil;
   NSData *data = [NSURLConnection sendSynchronousRequest:request
