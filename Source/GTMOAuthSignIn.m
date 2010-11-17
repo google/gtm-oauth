@@ -189,6 +189,7 @@ const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   [auth_ addRequestTokenHeaderToRequest:request];
 
   GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  [fetcher setCommentWithFormat:@"request token for %@", [requestURL_ host]];
 
   BOOL didStart = [fetcher beginFetchWithDelegate:self
                                 didFinishSelector:@selector(requestFetcher:finishedWithData:error:)];
@@ -292,6 +293,7 @@ const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   [auth_ addAccessTokenHeaderToRequest:request];
 
   GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  [fetcher setCommentWithFormat:@"access token for %@", [accessURL_ host]];
 
   [fetcher beginFetchWithDelegate:self
                 didFinishSelector:@selector(accessFetcher:finishedWithData:error:)];
@@ -332,6 +334,8 @@ const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   [auth_ authorizeRequest:request];
 
   GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  fetcher.comment = @"user info";
+
   [fetcher beginFetchWithDelegate:self
                 didFinishSelector:@selector(infoFetcher:finishedWithData:error:)];
 
