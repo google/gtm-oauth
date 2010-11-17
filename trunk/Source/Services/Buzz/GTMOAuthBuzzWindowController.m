@@ -17,6 +17,8 @@
 //  GTMOAuthBuzzWindowController.h
 //
 
+#import <Foundation/Foundation.h>
+
 #if !(TARGET_OS_IPHONE) && (!GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_BUZZ_SERVICE)
 
 #import "GTMOAuthBuzzWindowController.h"

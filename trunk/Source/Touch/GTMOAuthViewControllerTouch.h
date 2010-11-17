@@ -63,6 +63,8 @@
 
 #if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
 
+#import <Foundation/Foundation.h>
+
 #if TARGET_OS_IPHONE
 
 #import <UIKit/UIKit.h>
