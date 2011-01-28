@@ -223,6 +223,7 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "OAuthSampleTouch" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -307,7 +308,6 @@
 				GCC_PREFIX_HEADER = prefixTouch.pch;
 				INFOPLIST_FILE = "Info-iPhone.plist";
 				PRODUCT_NAME = "OAuthSample-iPhone";
-				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -321,7 +321,6 @@
 				GCC_PREFIX_HEADER = prefixTouch.pch;
 				INFOPLIST_FILE = "Info-iPhone.plist";
 				PRODUCT_NAME = "OAuthSample-iPhone";
-				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -330,6 +329,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -345,6 +345,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = prefixTouch.pch;
@@ -367,7 +368,8 @@
 				OTHER_CFLAGS = "-DDEBUG=1";
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.2;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -383,7 +385,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.2;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
