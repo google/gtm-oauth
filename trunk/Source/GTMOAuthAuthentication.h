@@ -215,6 +215,8 @@ _EXTERN NSString* const kGTMOAuthSignatureMethodRSA_SHA1  _INITIALIZE_AS(@"RSA-S
 + (NSDictionary *)dictionaryWithResponseData:(NSData *)data;
 + (NSDictionary *)dictionaryWithResponseString:(NSString *)responseStr;
 
++ (NSString *)scopeWithStrings:(NSString *)str, ...;
+
 + (NSString *)stringWithBase64ForData:(NSData *)data;
 
 + (NSString *)HMACSHA1HashForConsumerSecret:(NSString *)consumerSecret
