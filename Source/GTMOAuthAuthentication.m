@@ -984,6 +984,23 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
   return dict;
 }
 
++ (NSString *)scopeWithStrings:(NSString *)str, ... {
+  // concatenate the strings, joined by a single space
+  NSString *result = @"";
+  NSString *joiner = @"";
+  if (str) {
+    va_list argList;
+    va_start(argList, str);
+    while (str) {
+      result = [result stringByAppendingFormat:@"%@%@", joiner, str];
+      joiner = @" ";
+      str = va_arg(argList, id);
+    }
+    va_end(argList);
+  }
+  return result;
+}
+
 #pragma mark Signing Methods
 
 + (NSString *)HMACSHA1HashForConsumerSecret:(NSString *)consumerSecret

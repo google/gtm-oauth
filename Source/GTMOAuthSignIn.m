@@ -20,7 +20,7 @@
 
 // we'll default to timing out if the network becomes unreachable for more
 // than 30 seconds when the sign-in page is displayed
-const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
+static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
 
 @interface GTMOAuthSignIn ()
 - (void)invokeFinalCallbackWithError:(NSError *)error;
