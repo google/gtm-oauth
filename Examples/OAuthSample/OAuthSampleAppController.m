@@ -286,6 +286,13 @@ static NSString *const kTwitterServiceName = @"Twitter";
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
   [mAuth authorizeRequest:request];
 
+  // Note that for a request with a body, such as a POST or PUT request, the
+  // library will include the body data when signing only if the request has
+  // the proper content type header:
+  //
+  //   [request setValue:@"application/x-www-form-urlencoded"
+  //  forHTTPHeaderField:@"Content-Type"];
+
   // Synchronous fetches like this are a really bad idea in Cocoa applications
   //
   // For a very easy async alternative, we could use GTMHTTPFetcher
