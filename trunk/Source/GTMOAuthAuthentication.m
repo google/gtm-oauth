@@ -657,7 +657,55 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
   return [self hasAccessToken];
 }
 
-#pragma mark -
+#pragma mark GTMFetcherAuthorizationProtocol Methods
+
+// Implementation of GTMFetcherAuthorizationProtocol methods
+
+- (BOOL)authorizeRequest:(NSMutableURLRequest *)request
+                delegate:(id)delegate
+       didFinishSelector:(SEL)sel {
+  // Authorization entry point with callback for OAuth 2
+  NSError *error = nil;
+  if (![self authorizeRequest:request]) {
+    // failed
+    error = [NSError errorWithDomain:kGTMOAuthErrorDomain
+                                code:-1
+                            userInfo:nil];
+  }
+
+  if (delegate && sel) {
+    NSMethodSignature *sig = [delegate methodSignatureForSelector:sel];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    [invocation setSelector:sel];
+    [invocation setTarget:delegate];
+    [invocation setArgument:&self atIndex:2];
+    [invocation setArgument:&request atIndex:3];
+    [invocation setArgument:&error atIndex:4];
+    [invocation invoke];
+  }
+
+  return (error == nil);
+}
+
+- (void)stopAuthorization {
+ // nothing to do, since OAuth 1 authorization is synchronous
+}
+
+- (BOOL)isAuthorizedRequest:(NSURLRequest *)request {
+  if ([self shouldUseParamsToAuthorize]) {
+    // look for query parameter authorization
+    NSString *query = [[request URL] query];
+    NSDictionary *dict = [[self class] dictionaryWithResponseString:query];
+    NSString *token = [dict valueForKey:kOAuthTokenKey];
+    return ([token length] > 0);
+  } else {
+    // look for header authorization
+    NSString *authStr = [request valueForHTTPHeaderField:@"Authorization"];
+    return ([authStr length] > 0);
+  }
+}
+
+#pragma mark Persistence Response Strings
 
 - (void)setKeysForPersistenceResponseString:(NSString *)str {
   // all persistence keys map directly to keys in paramValues_
