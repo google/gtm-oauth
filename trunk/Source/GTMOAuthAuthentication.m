@@ -620,11 +620,11 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
     realmParam = [NSString stringWithFormat:@"realm=\"%@\", ", encodedVal];
   }
   
-  // add the parameters for "oauth_" keys and the realm
-  // to the authorization header
+  // set the parameters for "oauth_" keys and the realm
+  // in the authorization header
   NSString *authHdr = [NSString stringWithFormat:@"OAuth %@%@",
                        realmParam, paramStr];
-  [request addValue:authHdr forHTTPHeaderField:@"Authorization"];
+  [request setValue:authHdr forHTTPHeaderField:@"Authorization"];
   
   // add any other params as URL query parameters
   if ([extendedParams count] > 0) {
