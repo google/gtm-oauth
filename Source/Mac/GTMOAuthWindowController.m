@@ -45,17 +45,18 @@ const char *kKeychainAccountName = "OAuth";
 @implementation GTMOAuthWindowController
 
 // IBOutlets
-@synthesize keychainCheckbox = keychainCheckbox_;
-@synthesize webView = webView_;
-@synthesize webCloseButton = webCloseButton_;
-@synthesize webBackButton = webBackButton_;
+@synthesize keychainCheckbox = keychainCheckbox_,
+            webView = webView_,
+            webCloseButton = webCloseButton_,
+            webBackButton = webBackButton_;
 
 // regular ivars
-@synthesize initialRequest = initialRequest_;
-@synthesize keychainApplicationServiceName = keychainApplicationServiceName_;
-@synthesize initialHTMLString = initialHTMLString_;
-@synthesize signIn = signIn_;
-@synthesize userData = userData_;
+@synthesize initialRequest = initialRequest_,
+            keychainApplicationServiceName = keychainApplicationServiceName_,
+            initialHTMLString = initialHTMLString_,
+            externalRequestSelector = externalRequestSelector_,
+            signIn = signIn_,
+            userData = userData_;
 
 - (id)initWithScope:(NSString *)scope
            language:(NSString *)language
@@ -147,6 +148,7 @@ const char *kKeychainAccountName = "OAuth";
 - (void)awakeFromNib {
   // load the requested initial sign-in page
   [webView_ setResourceLoadDelegate:self];
+  [webView_ setPolicyDelegate:self];
 
   // the app may prefer some html other than blank white to be displayed
   // before the sign-in web page loads
@@ -397,6 +399,24 @@ const char *kKeychainAccountName = "OAuth";
 
 - (void)windowWillClose:(NSNotification *)note {
   [self handlePrematureWindowClose];
+}
+
+- (void)webView:(WebView *)webView
+decidePolicyForNewWindowAction:(NSDictionary *)actionInformation
+        request:(NSURLRequest *)request
+   newFrameName:(NSString *)frameName
+decisionListener:(id<WebPolicyDecisionListener>)listener {
+  SEL sel = self.externalRequestSelector;
+  if (sel) {
+    [delegate_ performSelector:sel
+                    withObject:self
+                    withObject:request];
+  } else {
+    // default behavior is to open the URL in NSWorkspace's default browser
+    NSURL *url = [request URL];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+  }
+  [listener ignore];
 }
 
 #pragma mark Cookie management

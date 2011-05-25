@@ -110,6 +110,9 @@
   id completionPlaceholder_;
 #endif
 
+  // delegate method for handling URLs to be opened in external windows
+  SEL externalRequestSelector_;
+
   BOOL isWindowShown_;
 
   // paranoid flag to ensure we only close once during the sign-in sequence
@@ -156,6 +159,16 @@
 // sign-in page is 30 seconds, after which the notification
 // kGTLOAuthNetworkLost is sent; set this to 0 to have no timeout
 @property (nonatomic, assign) NSTimeInterval networkLossTimeoutInterval;
+
+// Selector for a delegate method to handle requests sent to an external
+// browser.
+//
+// Selector should have a signature matching
+// - (void)windowController:(GTMOAuthWindowController *)controller
+//             opensRequest:(NSURLRequest *)request;
+//
+// The controller's default behavior is to use NSWorkspace's openURL:
+@property (nonatomic, assign) SEL externalRequestSelector;
 
 // the underlying object to hold authentication tokens and authorize http
 // requests
