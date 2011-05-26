@@ -623,7 +623,10 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
       // Can't start signing in. We must pop our view.
       // UIWebview needs time to stabilize. Animations need time to complete.
       // We remove ourself from the view stack after that.
-      [self performSelector:@selector(popView) withObject:nil afterDelay:0.5];
+      [self performSelector:@selector(popView)
+                 withObject:nil
+                 afterDelay:0.5
+                    inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
     }
   }
   [super viewWillAppear:animated];

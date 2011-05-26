@@ -166,8 +166,8 @@ const char *kKeychainAccountName = "OAuth";
     // start the asynchronous load of the sign-in web page
     [[webView_ mainFrame] performSelector:@selector(loadRequest:)
                                withObject:[self initialRequest]
-                               afterDelay:0.01];
-
+                               afterDelay:0.01
+                                  inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
   } else {
     // clock date is invalid, so signing in would fail with an unhelpful error
     // from the server. Warn the user in an html string showing a watch icon,
@@ -297,7 +297,8 @@ const char *kKeychainAccountName = "OAuth";
   } else {
     [[self window] performSelector:@selector(close)
                         withObject:nil
-                        afterDelay:0.1];
+                        afterDelay:0.1
+                           inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
   }
   isWindowShown_ = NO;
 }
