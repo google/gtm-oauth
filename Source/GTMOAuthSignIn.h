@@ -70,6 +70,8 @@ enum {
   SEL webRequestSelector_;
   SEL finishedSelector_;
 
+  id <GTMHTTPFetcherServiceProtocol> fetcherService_;
+
   GTMHTTPFetcher *pendingFetcher_;
 
   BOOL shouldFetchGoogleUserInfo_;
@@ -86,17 +88,21 @@ enum {
 @property (nonatomic, retain) GTMOAuthAuthentication *authentication;
 @property (nonatomic, retain) id userData;
 
-@property (nonatomic, readonly) NSURL *requestTokenURL;
-@property (nonatomic, readonly) NSURL *authorizeTokenURL;
-@property (nonatomic, readonly) NSURL *accessTokenURL;
+@property (nonatomic, retain, readonly) NSURL *requestTokenURL;
+@property (nonatomic, retain, readonly) NSURL *authorizeTokenURL;
+@property (nonatomic, retain, readonly) NSURL *accessTokenURL;
 
 @property (nonatomic, assign) BOOL shouldFetchGoogleUserInfo;
 
-// the default timeout for an unreachable network during display of the
+// Property for the optional fetcher service instance to be used to create
+// fetchers
+@property (nonatomic, retain) id <GTMHTTPFetcherServiceProtocol> fetcherService;
+
+// The default timeout for an unreachable network during display of the
 // sign-in page is 30 seconds; set this to 0 to have no timeout
 @property (nonatomic, assign) NSTimeInterval networkLossTimeoutInterval;
 
-// convenience entry point for accessing Google APIs; this creates the
+// Convenience entry point for accessing Google APIs; this creates the
 // authentication object, and uses standard URL endpoints for OAuth to
 // Google services
 //
@@ -107,7 +113,7 @@ enum {
                         webRequestSelector:(SEL)webRequestSelector
                           finishedSelector:(SEL)finishedSelector;
 
-// entry point for accessing non-Google APIs
+// Entry point for accessing non-Google APIs
 //
 // designated initializer
 - (id)initWithAuthentication:(GTMOAuthAuthentication *)auth
@@ -120,25 +126,25 @@ enum {
 
 #pragma mark Methods used by the Window Controller
 
-// start the sequence of fetches and sign-in window display for sign-in
+// Start the sequence of fetches and sign-in window display for sign-in
 - (BOOL)startSigningIn;
 
-// stop any pending fetches, and close the window (but don't call the
+// Stop any pending fetches, and close the window (but don't call the
 // delegate's finishedSelector)
 - (void)cancelSigningIn;
 
-// window controllers must tell the sign-in object about any redirect
+// Window controllers must tell the sign-in object about any redirect
 // requested by the web view; if this returns YES then the redirect
 // was handled by the sign-in object (typically by closing the window)
 // and the request should be ignored by the window controller's web view
 - (BOOL)requestRedirectedToRequest:(NSURLRequest *)redirectedRequest;
 
-// window controllers must tell the sign-in object if the window was closed
+// Window controllers must tell the sign-in object if the window was closed
 // prematurely by the user (but not by the sign-in object); this calls the
 // delegate's finishedSelector
 - (void)windowWasClosed;
 
-// revocation of an authorized token from Google
+// Revocation of an authorized token from Google
 + (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth;
 
 @end
