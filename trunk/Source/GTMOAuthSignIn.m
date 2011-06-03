@@ -23,6 +23,11 @@
 static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
 
 @interface GTMOAuthSignIn ()
+
+@property (nonatomic, retain, readwrite) NSURL *requestTokenURL;
+@property (nonatomic, retain, readwrite) NSURL *authorizeTokenURL;
+@property (nonatomic, retain, readwrite) NSURL *accessTokenURL;
+
 - (void)invokeFinalCallbackWithError:(NSError *)error;
 
 - (void)startWebRequest;
@@ -46,16 +51,15 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
 
 @implementation GTMOAuthSignIn
 
-@synthesize delegate = delegate_;
-@synthesize authentication = auth_;
-@synthesize userData = userData_;
-
-@synthesize requestTokenURL = requestURL_;
-@synthesize authorizeTokenURL = authorizeURL_;
-@synthesize accessTokenURL = accessURL_;
-
-@synthesize shouldFetchGoogleUserInfo = shouldFetchGoogleUserInfo_;
-@synthesize networkLossTimeoutInterval = networkLossTimeoutInterval_;
+@synthesize delegate = delegate_,
+            authentication = auth_,
+            fetcherService = fetcherService_,
+            userData = userData_,
+            requestTokenURL = requestURL_,
+            authorizeTokenURL = authorizeURL_,
+            accessTokenURL = accessURL_,
+            shouldFetchGoogleUserInfo = shouldFetchGoogleUserInfo_,
+            networkLossTimeoutInterval = networkLossTimeoutInterval_;
 
 - (id)initWithGoogleAuthenticationForScope:(NSString *)scope
                                   language:(NSString *)language
@@ -135,19 +139,31 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
 - (void)dealloc {
   [self stopReachabilityCheck];
 
-  [delegate_ release];
-  [auth_ release];
-
-  [requestURL_ release];
-  [authorizeURL_ release];
-  [accessURL_ release];
-
-  [userData_ release];
+  self.delegate = nil;
+  self.authentication = nil;
+  self.requestTokenURL = nil;
+  self.authorizeTokenURL = nil;
+  self.accessTokenURL = nil;
+  self.fetcherService = nil;
+  self.userData = nil;
 
   [super dealloc];
 }
 
 #pragma mark Sign-in Sequence Methods
+
+// utility method to create a fetcher, either from the fetcher service object
+// or from the class method
+- (GTMHTTPFetcher *)fetcherWithRequest:(NSMutableURLRequest *)request {
+  GTMHTTPFetcher *fetcher;
+  id <GTMHTTPFetcherServiceProtocol> fetcherService = self.fetcherService;
+  if (fetcherService) {
+    fetcher = [fetcherService fetcherWithRequest:request];
+  } else {
+    fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  }
+  return fetcher;
+}
 
 // stop any pending fetches, and close the window (but don't call the
 // delegate's finishedSelector)
@@ -188,7 +204,7 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL_];
   [auth_ addRequestTokenHeaderToRequest:request];
 
-  GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  GTMHTTPFetcher *fetcher = [self fetcherWithRequest:request];
   [fetcher setCommentWithFormat:@"request token for %@", [requestURL_ host]];
 
   BOOL didStart = [fetcher beginFetchWithDelegate:self
@@ -292,7 +308,7 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:accessURL_];
   [auth_ addAccessTokenHeaderToRequest:request];
 
-  GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  GTMHTTPFetcher *fetcher = [self fetcherWithRequest:request];
   [fetcher setCommentWithFormat:@"access token for %@", [accessURL_ host]];
 
   [fetcher beginFetchWithDelegate:self
@@ -333,7 +349,7 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:infoURL];
   [auth_ authorizeRequest:request];
 
-  GTMHTTPFetcher *fetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+  GTMHTTPFetcher *fetcher = [self fetcherWithRequest:request];
   fetcher.comment = @"user info";
 
   [fetcher beginFetchWithDelegate:self
