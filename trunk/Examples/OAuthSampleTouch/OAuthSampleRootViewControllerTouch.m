@@ -17,10 +17,6 @@
 #import "OAuthSampleRootViewControllerTouch.h"
 #import "GTMOAuthViewControllerTouch.h"
 
-#ifndef UI_USER_INTERFACE_IDIOM()
-#define UI_USER_INTERFACE_IDIOM() 0
-#endif
-
 static NSString *const kAppServiceName = @"OAuth Sample: Google Contacts";
 static NSString *const kShouldSaveInKeychainKey = @"shouldSaveInKeychain";
 
