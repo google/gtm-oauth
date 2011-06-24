@@ -17,10 +17,10 @@
 #import "OAuthSampleRootViewControllerTouch.h"
 #import "GTMOAuthViewControllerTouch.h"
 
-static NSString *const kAppServiceName = @"OAuth Sample: Google Contacts";
+static NSString *const kKeychainItemName = @"OAuth Sample: Google Contacts";
 static NSString *const kShouldSaveInKeychainKey = @"shouldSaveInKeychain";
 
-static NSString *const kTwitterAppServiceName = @"OAuth Sample: Twitter";
+static NSString *const kTwitterKeychainItemName = @"OAuth Sample: Twitter";
 static NSString *const kTwitterServiceName = @"Twitter";
 
 @interface OAuthSampleRootViewControllerTouch()
@@ -52,23 +52,30 @@ static NSString *const kTwitterServiceName = @"Twitter";
 
   // Get the saved authentication, if any, from the keychain.
   //
-  // first, we'll try to get the saved Google authentication, if any
+  // The view controller supports methods for saving and restoring
+  // authentication under arbitrary keychain item names; see the
+  // "keychainForName" methods in the interface.  The keychain item
+  // names are up to the application, and may reflect multiple accounts for
+  // one or more services.
+  //
+  // This sample app may have saved one Google authentication and one Twitter
+  // auth.  First, we'll try to get the saved Google authentication, if any.
   GTMOAuthAuthentication *auth;
-  auth = [GTMOAuthViewControllerTouch authForGoogleFromKeychainForName:kAppServiceName];
+  auth = [GTMOAuthViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName];
   if ([auth canAuthorize]) {
-    // select the Google index
+    // Select the Google index
     [mServiceSegments setSelectedSegmentIndex:0];
   } else {
-    // there is no saved Google authentication
+    // There is no saved Google authentication
     //
     // perhaps we have a saved authorization for Twitter instead; try getting
     // that from the keychain
     auth = [self authForTwitter];
     if (auth) {
-      BOOL didAuth = [GTMOAuthViewControllerTouch authorizeFromKeychainForName:kTwitterAppServiceName
+      BOOL didAuth = [GTMOAuthViewControllerTouch authorizeFromKeychainForName:kTwitterKeychainItemName
                                                                   authentication:auth];
       if (didAuth) {
-        // select the Twitter index
+        // Select the Twitter index
         [mServiceSegments setSelectedSegmentIndex:1];
       }
     }
@@ -140,10 +147,10 @@ static NSString *const kTwitterServiceName = @"Twitter";
   }
 
   // remove the stored Google authentication from the keychain, if any
-  [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:kAppServiceName];
+  [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:kKeychainItemName];
 
   // remove the stored Twitter authentication from the keychain, if any
-  [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:kTwitterAppServiceName];
+  [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:kTwitterKeychainItemName];
 
   // Discard our retained authentication object.
   [self setAuthentication:nil];
@@ -154,9 +161,9 @@ static NSString *const kTwitterServiceName = @"Twitter";
 - (void)signInToGoogle {
   [self signOut];
 
-  NSString *keychainAppServiceName = nil;
+  NSString *keychainItemName = nil;
   if ([self shouldSaveInKeychain]) {
-    keychainAppServiceName = kAppServiceName;
+    keychainItemName = kKeychainItemName;
   }
 
   // For GTM applications, the scope is available as
@@ -171,7 +178,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
   GTMOAuthViewControllerTouch *viewController = [[[GTMOAuthViewControllerTouch alloc]
             initWithScope:scope
                  language:nil
-           appServiceName:keychainAppServiceName
+           appServiceName:keychainItemName
                  delegate:self
          finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
 
@@ -235,9 +242,9 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // loaded
   [auth setCallback:@"http://www.example.com/OAuthCallback"];
 
-  NSString *keychainAppServiceName = nil;
+  NSString *keychainItemName = nil;
   if ([self shouldSaveInKeychain]) {
-    keychainAppServiceName = kTwitterAppServiceName;
+    keychainItemName = kTwitterKeychainItemName;
   }
 
   // Display the autentication view.
@@ -248,7 +255,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
        authorizeTokenURL:authorizeURL
           accessTokenURL:accessURL
           authentication:auth
-          appServiceName:keychainAppServiceName
+          appServiceName:keychainItemName
                 delegate:self
         finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
 

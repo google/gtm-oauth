@@ -240,7 +240,7 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
 // it. else default result (i.e., Portrait mode only).
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
-// subclasses may override authNibName to specify a custom name
+// Subclasses may override authNibName to specify a custom name
 + (NSString *)authNibName;
 
 // If the nib is not found, this ViewwController calls this method to construct
@@ -256,23 +256,24 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
 // Keychain
 //
 
-// create an authentication object for Google services from the access
+// Create an authentication object for Google services from the access
 // token and secret stored in the keychain; if no token is available, return
 // an unauthorized auth object
 + (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName;
 
-// add tokens from the keychain, if available, to the authentication object
+// Add tokens from the keychain, if available, to an authentication
+// object.  The authentication object must have previously been created.
 //
-// returns YES if the authentication object was authorized from the keychain
+// Returns YES if the authentication object was authorized from the keychain
 + (BOOL)authorizeFromKeychainForName:(NSString *)appServiceName
                       authentication:(GTMOAuthAuthentication *)auth;
 
-// method for deleting the stored access token and secret, useful for "signing
+// Delete the stored access token and secret, useful for "signing
 // out"
 + (BOOL)removeParamsFromKeychainForName:(NSString *)appServiceName;
 
-// method for saving the stored access token and secret; typically, this method
-// is used only by this.
+// Store the access token and secret, typically used immediately after
+// signing in
 + (BOOL)saveParamsToKeychainForName:(NSString *)appServiceName
                      authentication:(GTMOAuthAuthentication *)auth;
 
