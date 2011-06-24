@@ -254,7 +254,7 @@
 // name (typically set in the initWithScope: method) is non-empty
 //
 
-// create an authentication object for Google services from the access
+// Create an authentication object for Google services from the access
 // token and secret stored in the keychain; if no token is available, return
 // an unauthorized auth object
 + (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName;
@@ -263,18 +263,19 @@
                                                  consumerKey:(NSString *)consumerKey
                                                   privateKey:(NSString *)privateKey;
 
-// add tokens from the keychain, if available, to the authentication object
+// Add tokens from the keychain, if available, to an authentication
+// object.  The authentication object must have previously been created.
 //
-// returns YES if the authentication object was authorized from the keychain
+// Returns YES if the authentication object was authorized from the keychain
 + (BOOL)authorizeFromKeychainForName:(NSString *)appServiceName
                       authentication:(GTMOAuthAuthentication *)auth;
 
-// method for deleting the stored access token and secret, useful for "signing
+// Delete the stored access token and secret, useful for "signing
 // out"
 + (BOOL)removeParamsFromKeychainForName:(NSString *)appServiceName;
 
-// method for saving the stored access token and secret; typically, this method
-// is used only by the window controller
+// Store the access token and secret, typically used immediately after
+// signing in
 + (BOOL)saveParamsToKeychainForName:(NSString *)appServiceName
                      authentication:(GTMOAuthAuthentication *)auth;
 @end

@@ -38,29 +38,37 @@
 
 @implementation OAuthSampleAppController
 
-static NSString *const kAppServiceName = @"OAuth Sample: Google Contacts";
+static NSString *const kKeychainItemName = @"OAuth Sample: Google Contacts";
 
-static NSString *const kTwitterAppServiceName = @"OAuth Sample: Twitter";
+static NSString *const kTwitterKeychainItemName = @"OAuth Sample: Twitter";
 
 static NSString *const kTwitterServiceName = @"Twitter";
 
 - (void)awakeFromNib {
-  // first, we'll try to get the saved Google authentication, if any, from
-  // the keychain
+  // Get the saved authentication, if any, from the keychain.
+  //
+  // The window controller supports methods for saving and restoring
+  // authentication under arbitrary keychain item names; see the
+  // "keychainForName" methods in the interface.  The keychain item
+  // names are up to the application, and may reflect multiple accounts for
+  // one or more services.
+  //
+  // This sample app may have saved one Google authentication and one Twitter
+  // auth.  First, we'll try to get the saved Google authentication, if any.
   GTMOAuthAuthentication *auth;
-  auth = [GTMOAuthWindowController authForGoogleFromKeychainForName:kAppServiceName];
+  auth = [GTMOAuthWindowController authForGoogleFromKeychainForName:kKeychainItemName];
 
   if ([auth canAuthorize]) {
-    // select the Google radio button
+    // Select the Google radio button
     [mRadioButtons selectCellWithTag:0];
   } else {
-    // there is no saved Google authentication
+    // There is no saved Google authentication
     //
-    // perhaps we have a saved authorization for Twitter instead; try getting
+    // Perhaps we have a saved authorization for Twitter instead; try getting
     // that from the keychain
     auth = [self authForTwitter];
     if (auth) {
-      BOOL didAuth = [GTMOAuthWindowController authorizeFromKeychainForName:kTwitterAppServiceName
+      BOOL didAuth = [GTMOAuthWindowController authorizeFromKeychainForName:kTwitterKeychainItemName
                                                                authentication:auth];
       if (didAuth) {
         // select the Twitter radio button
@@ -135,10 +143,10 @@ static NSString *const kTwitterServiceName = @"Twitter";
   }
 
   // remove the stored Google authentication from the keychain, if any
-  [GTMOAuthWindowController removeParamsFromKeychainForName:kAppServiceName];
+  [GTMOAuthWindowController removeParamsFromKeychainForName:kKeychainItemName];
 
   // remove the stored Twitter authentication from the keychain, if any
-  [GTMOAuthWindowController removeParamsFromKeychainForName:kTwitterAppServiceName];
+  [GTMOAuthWindowController removeParamsFromKeychainForName:kTwitterKeychainItemName];
 
   // discard our retains authentication object
   [self setAuthentication:nil];
@@ -157,7 +165,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
   GTMOAuthWindowController *windowController;
   windowController = [[[GTMOAuthWindowController alloc] initWithScope:scope
                                                                language:nil
-                                                         appServiceName:kAppServiceName
+                                                         appServiceName:kKeychainItemName
                                                          resourceBundle:nil] autorelease];
 
   // optional: display some html briefly before the sign-in page loads
@@ -224,7 +232,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
                                                       authorizeTokenURL:authorizeURL
                                                          accessTokenURL:accessURL
                                                          authentication:auth
-                                                         appServiceName:kTwitterAppServiceName
+                                                         appServiceName:kTwitterKeychainItemName
                                                          resourceBundle:nil] autorelease];
   [windowController signInSheetModalForWindow:mMainWindow
                                      delegate:self
