@@ -139,13 +139,13 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
 - (void)dealloc {
   [self stopReachabilityCheck];
 
-  self.delegate = nil;
-  self.authentication = nil;
-  self.requestTokenURL = nil;
-  self.authorizeTokenURL = nil;
-  self.accessTokenURL = nil;
-  self.fetcherService = nil;
-  self.userData = nil;
+  [auth_ release];
+  [delegate_ release];
+  [requestURL_ release];
+  [authorizeURL_ release];
+  [accessURL_ release];
+  [fetcherService_ release];
+  [userData_ release];
 
   [super dealloc];
 }
