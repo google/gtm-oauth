@@ -17,8 +17,6 @@
 //  GTMOAuthBuzzViewController.h
 //
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || (GTL_INCLUDE_OAUTH && GTL_INCLUDE_BUZZ_SERVICE)
-
 #include <Foundation/Foundation.h>
 
 #if TARGET_OS_IPHONE
@@ -41,5 +39,3 @@
 @end
 
 #endif // TARGET_OS_IPHONE
-
-#endif // !GTL_REQUIRE_SERVICE_INCLUDES || (GTL_INCLUDE_OAUTH && GTL_INCLUDE_BUZZ_SERVICE)
