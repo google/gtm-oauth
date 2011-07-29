@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
-
 // HMAC digest
 #import <CommonCrypto/CommonHMAC.h>
 
@@ -1242,5 +1240,3 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
 }
 
 @end
-
-#endif // #if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH

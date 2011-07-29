@@ -19,7 +19,7 @@
 
 #include <Foundation/Foundation.h>
 
-#if !(TARGET_OS_IPHONE) && (!GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_BUZZ_SERVICE)
+#if !(TARGET_OS_IPHONE)
 
 #ifdef GTL_TARGET_NAMESPACE
   #import "GTLDefines.h"
@@ -39,4 +39,4 @@
 
 @end
 
-#endif // !(TARGET_OS_IPHONE) && (!GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_BUZZ_SERVICE)
+#endif // !(TARGET_OS_IPHONE)
