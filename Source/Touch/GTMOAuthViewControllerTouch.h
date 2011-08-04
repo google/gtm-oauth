@@ -61,8 +61,6 @@
 // html is displayed, the view will be dismissed and the callback method
 // will be invoked with an error.
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
-
 #import <Foundation/Foundation.h>
 
 #if TARGET_OS_IPHONE
@@ -316,5 +314,3 @@ enum {
 @end
 
 #endif // TARGET_OS_IPHONE
-
-#endif // !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH

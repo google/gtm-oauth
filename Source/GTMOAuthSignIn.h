@@ -41,8 +41,6 @@
 // when explicitly canceled by calling cancelSigningIn
 //
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
-
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
@@ -148,5 +146,3 @@ enum {
 + (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth;
 
 @end
-
-#endif // #if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH

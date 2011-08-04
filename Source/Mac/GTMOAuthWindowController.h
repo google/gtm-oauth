@@ -59,8 +59,6 @@
 // If the network connection is lost for more than 30 seconds while the sign-in
 // html is displayed, the notification kGTLOAuthNetworkLost will be sent.
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
-
 #include <Foundation/Foundation.h>
 
 #if !TARGET_OS_IPHONE
@@ -281,5 +279,3 @@
 @end
 
 #endif // #if !TARGET_OS_IPHONE
-
-#endif // #if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH

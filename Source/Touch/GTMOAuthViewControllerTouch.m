@@ -20,8 +20,6 @@
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
-
 #if TARGET_OS_IPHONE
 
 // If you want to shave a few bytes, and you include GTMOAuthViewTouch.xib
@@ -874,5 +872,3 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 @end
 
 #endif // TARGET_OS_IPHONE
-
-#endif // !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
