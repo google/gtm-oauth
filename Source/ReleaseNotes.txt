@@ -3,6 +3,13 @@ GTM OAuth Release Notes
 Project site:     http://code.google.com/p/gtm-oauth/
 Discussion group: http://groups.google.com/group/gtm-oauth
 
+2-August-2011
+
+Projects may now define GTM_OAUTH_SKIP_GOOGLE_SUPPORT to exclude
+Google-specific code. The GTMOAuth project file also now includes
+"non-Google" targets for building without Google-specific code.
+
+
 25-May-2011
 
 Mac window controller now opens pop-up window links in an external browser
