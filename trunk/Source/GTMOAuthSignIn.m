@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
-
 #define GTMOAUTHSIGNIN_DEFINE_GLOBALS 1
 #import "GTMOAuthSignIn.h"
 
@@ -192,7 +190,7 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
 
   // add the Google-specific scope for obtaining the authenticated user info
   if (shouldFetchGoogleUserInfo_) {
-    NSString *uiScope = @"https://www.googleapis.com/auth/userinfo#email";
+    NSString *uiScope = @"https://www.googleapis.com/auth/userinfo.email";
     NSString *scope = [auth_ scope];
     if ([scope rangeOfString:uiScope].location == NSNotFound) {
       scope = [scope stringByAppendingFormat:@" %@", uiScope];
@@ -574,5 +572,3 @@ static void ReachabilityCallBack(SCNetworkReachabilityRef target,
 }
 
 @end
-
-#endif // #if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH

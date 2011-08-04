@@ -15,8 +15,6 @@
 
 #import <Foundation/Foundation.h>
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH
-
 #if !TARGET_OS_IPHONE
 
 #ifdef GTL_TARGET_NAMESPACE
@@ -628,5 +626,3 @@ decisionListener:(id<WebPolicyDecisionListener>)listener {
 @end
 
 #endif // #if !TARGET_OS_IPHONE
-
-#endif // #if !GTL_REQUIRE_SERVICE_INCLUDES || GTL_INCLUDE_OAUTH

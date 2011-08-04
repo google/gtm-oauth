@@ -17,8 +17,6 @@
 //  GTMOAuthLatitudeViewControllerTouch.m
 //
 
-#if !GTL_REQUIRE_SERVICE_INCLUDES || (GTL_INCLUDE_OAUTH && GTL_INCLUDE_LATITUDE_SERVICE)
-
 #import <Foundation/Foundation.h>
 
 #if TARGET_OS_IPHONE
@@ -66,5 +64,3 @@
 @end
 
 #endif // TARGET_OS_IPHONE
-
-#endif // !GTL_REQUIRE_SERVICE_INCLUDES || (GTL_INCLUDE_OAUTH && GTL_INCLUDE_LATITUDE_SERVICE)
