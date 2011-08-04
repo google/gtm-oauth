@@ -56,6 +56,7 @@ const char *kKeychainAccountName = "OAuth";
             signIn = signIn_,
             userData = userData_;
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 - (id)initWithScope:(NSString *)scope
            language:(NSString *)language
      appServiceName:(NSString *)keychainAppServiceName
@@ -70,6 +71,7 @@ const char *kKeychainAccountName = "OAuth";
               appServiceName:keychainAppServiceName
               resourceBundle:bundle];
 }
+#endif
 
 - (id)initWithScope:(NSString *)scope
            language:(NSString *)language
@@ -101,12 +103,16 @@ const char *kKeychainAccountName = "OAuth";
                                                webRequestSelector:@selector(signIn:displayRequest:)
                                                  finishedSelector:@selector(signIn:finishedWithAuth:error:)];
     } else {
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
       // use default Google auth and endpoint values
       signIn_ = [[GTMOAuthSignIn alloc] initWithGoogleAuthenticationForScope:scope
                                                                       language:language
                                                                       delegate:self
                                                             webRequestSelector:@selector(signIn:displayRequest:)
                                                               finishedSelector:@selector(signIn:finishedWithAuth:error:)];
+#else
+      NSAssert(0, @"authentication object required");
+#endif
     }
 
     // the display name defaults to the bundle's name, falling back on the
@@ -369,9 +375,11 @@ const char *kKeychainAccountName = "OAuth";
 
 #pragma mark Token Revocation
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 + (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth {
   [GTMOAuthSignIn revokeTokenForGoogleAuthentication:auth];
 }
+#endif
 
 #pragma mark WebView methods
 
@@ -528,6 +536,7 @@ decisionListener:(id<WebPolicyDecisionListener>)listener {
   }
 }
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 + (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName {
   GTMOAuthAuthentication *newAuth = [GTMOAuthAuthentication authForInstalledApp];
   [self authorizeFromKeychainForName:appServiceName
@@ -546,6 +555,7 @@ decisionListener:(id<WebPolicyDecisionListener>)listener {
                                           authentication:auth];
   return auth;
 }
+#endif
 
 + (BOOL)authorizeFromKeychainForName:(NSString *)appServiceName
                       authentication:(GTMOAuthAuthentication *)newAuth {

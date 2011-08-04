@@ -72,7 +72,9 @@ enum {
 
   GTMHTTPFetcher *pendingFetcher_;
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
   BOOL shouldFetchGoogleUserInfo_;
+#endif
 
   SCNetworkReachabilityRef reachabilityRef_;
   NSTimer *networkLossTimer_;
@@ -90,7 +92,9 @@ enum {
 @property (nonatomic, retain, readonly) NSURL *authorizeTokenURL;
 @property (nonatomic, retain, readonly) NSURL *accessTokenURL;
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 @property (nonatomic, assign) BOOL shouldFetchGoogleUserInfo;
+#endif
 
 // Property for the optional fetcher service instance to be used to create
 // fetchers
@@ -100,6 +104,7 @@ enum {
 // sign-in page is 30 seconds; set this to 0 to have no timeout
 @property (nonatomic, assign) NSTimeInterval networkLossTimeoutInterval;
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 // Convenience entry point for accessing Google APIs; this creates the
 // authentication object, and uses standard URL endpoints for OAuth to
 // Google services
@@ -110,6 +115,7 @@ enum {
                                   delegate:(id)delegate
                         webRequestSelector:(SEL)webRequestSelector
                           finishedSelector:(SEL)finishedSelector;
+#endif
 
 // Entry point for accessing non-Google APIs
 //
@@ -142,7 +148,9 @@ enum {
 // delegate's finishedSelector
 - (void)windowWasClosed;
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 // Revocation of an authorized token from Google
 + (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth;
+#endif
 
 @end

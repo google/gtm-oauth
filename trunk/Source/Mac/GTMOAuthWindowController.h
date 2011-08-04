@@ -193,10 +193,12 @@
 //   (or set to nil if no persistent keychain storage is desired)
 //
 // resourceBundle may be nil if the window is in the main bundle's nib
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 - (id)initWithScope:(NSString *)scope
            language:(NSString *)language               // may be nil
      appServiceName:(NSString *)keychainAppServiceName // may be nil
      resourceBundle:(NSBundle *)bundle;                // may be nil
+#endif
 
 // init method for authenticating to non-Google services, taking
 //   explicit endpoint URLs and an authentication object
@@ -243,8 +245,10 @@
 // subclasses may override authNibName to specify a custom name
 + (NSString *)authNibName;
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 // revocation of an authorized token from Google
 + (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth;
+#endif
 
 // keychain
 //
@@ -252,6 +256,7 @@
 // name (typically set in the initWithScope: method) is non-empty
 //
 
+#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 // Create an authentication object for Google services from the access
 // token and secret stored in the keychain; if no token is available, return
 // an unauthorized auth object
@@ -260,6 +265,7 @@
 + (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName
                                                  consumerKey:(NSString *)consumerKey
                                                   privateKey:(NSString *)privateKey;
+#endif
 
 // Add tokens from the keychain, if available, to an authentication
 // object.  The authentication object must have previously been created.
