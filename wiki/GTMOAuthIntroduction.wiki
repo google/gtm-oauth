@@ -271,6 +271,29 @@ To completely discard the user’s authorization, use the view or window control
 
 Finally, release the authorization object.
 
+=== Debugging Tips ===
+
+Getting OAuth 1 to work with a service provider can be challenging. Here are a few times for getting GTMOAuth working.
+
+==== HTTP Logging ====
+
+Turn on http logging to inspect the server requests and responses.  To enable http logging, add GTMHTTPFetcherLogging.h/m to your project, and call
+{{{
+[GTMHTTPFetcher setLoggingEnabled:YES];
+}}}
+The log will be written to a folder on the desktop or in the device data directory.  Often, helpful server errors can be found in the responses in the log.
+
+More information about http logging is in the GTMHTTPFetcher documentation [http://code.google.com/p/gtm-http-fetcher/wiki/GTMHTTPFetcherIntroduction#HTTP_Logging here].
+
+==== Signature Base String ====
+
+If the server signature check is failing, turn on signature diagnostics by specifying
+{{{
+#define GTL_DEBUG_OAUTH_SIGNING 1
+}}}
+at the top of `GTMOAuthAuthentication.m`.  The console output will then list the components being signed and, more importantly, the base string being signed for a sign-in attempt.  
+
+Compare the GTMOAuth base string to the base string shown in the provider's documentation.
 
 = Design Notes =
 
