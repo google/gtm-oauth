@@ -687,6 +687,11 @@ static NSString *const kUserEmailIsVerifiedKey    = @"isVerified";
  // nothing to do, since OAuth 1 authorization is synchronous
 }
 
+- (BOOL)isAuthorizingRequest:(NSURLRequest *)request {
+  // OAuth 1 auth is synchronous, so authorizations are never pending
+  return NO;
+}
+
 - (BOOL)isAuthorizedRequest:(NSURLRequest *)request {
   if ([self shouldUseParamsToAuthorize]) {
     // look for query parameter authorization
