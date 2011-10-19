@@ -64,6 +64,12 @@ _EXTERN NSString* const kGTMOAuthFetchTypeRequest  _INITIALIZE_AS(@"request");
 _EXTERN NSString* const kGTMOAuthFetchTypeAccess   _INITIALIZE_AS(@"access");
 _EXTERN NSString* const kGTMOAuthFetchTypeUserInfo _INITIALIZE_AS(@"userInfo");
 
+// Notification that sign-in has completed, and token fetches will begin (useful
+// for hiding pre-sign in messages, and showing post-sign in messages
+// during the access fetch)
+_EXTERN NSString* const kGTMOAuthUserWillSignIn      _INITIALIZE_AS(@"kGTMOAuthUserWillSignIn");
+_EXTERN NSString* const kGTMOAuthUserHasSignedIn     _INITIALIZE_AS(@"kGTMOAuthUserHasSignedIn");
+
 // notification for network loss during html sign-in display
 _EXTERN NSString* const kGTMOAuthNetworkLost       _INITIALIZE_AS(@"kGTMOAuthNetworkLost");
 _EXTERN NSString* const kGTMOAuthNetworkFound      _INITIALIZE_AS(@"kGTMOAuthNetworkFound");
