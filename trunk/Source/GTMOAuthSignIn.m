@@ -232,6 +232,13 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   } else {
     [auth_ setKeysForResponseData:data];
 
+    // notify the app so it can hide any pre-sign in UI that was displayed
+    // during the request fetch
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kGTMOAuthUserWillSignIn
+                      object:self
+                    userInfo:nil];
+
     [self startWebRequest];
   }
 }
@@ -310,6 +317,12 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
 
   // the callback page was requested, so tell the window to close
   [self closeTheWindow];
+
+  // notify the app so it can put up a post-sign in, pre-access token fetch UI
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:kGTMOAuthUserHasSignedIn
+                    object:self
+                  userInfo:nil];
 
   // once the authorization finishes, try to get a validated access token
   NSString *responseStr = [[redirectedRequest URL] query];
