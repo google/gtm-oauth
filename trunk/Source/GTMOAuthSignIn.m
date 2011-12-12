@@ -375,6 +375,8 @@ static const NSTimeInterval kDefaultNetworkLossTimeoutInterval = 30.0;
   NSURL *infoURL = [NSURL URLWithString:infoURLStr];
 
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:infoURL];
+  [request setValue:@"no-cache" forHTTPHeaderField:@"Cache-Control"];
+
   [auth_ authorizeRequest:request];
 
   GTMHTTPFetcher *fetcher = [self fetcherWithRequest:request];
