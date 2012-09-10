@@ -17,7 +17,6 @@
 #import "OAuthSampleRootViewControllerTouch.h"
 #import "GTMOAuthViewControllerTouch.h"
 
-static NSString *const kKeychainItemName = @"OAuth Sample: Google Contacts";
 static NSString *const kShouldSaveInKeychainKey = @"shouldSaveInKeychain";
 
 static NSString *const kTwitterKeychainItemName = @"OAuth Sample: Twitter";
@@ -58,29 +57,19 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // names are up to the application, and may reflect multiple accounts for
   // one or more services.
   //
-  // This sample app may have saved one Google authentication and one Twitter
-  // auth.  First, we'll try to get the saved Google authentication, if any.
-  GTMOAuthAuthentication *auth;
-  auth = [GTMOAuthViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName];
-  if ([auth canAuthorize]) {
-    // Select the Google index
-    [mServiceSegments setSelectedSegmentIndex:0];
-  } else {
-    // There is no saved Google authentication
-    //
-    // perhaps we have a saved authorization for Twitter instead; try getting
-    // that from the keychain
-    auth = [self authForTwitter];
-    if (auth) {
-      BOOL didAuth = [GTMOAuthViewControllerTouch authorizeFromKeychainForName:kTwitterKeychainItemName
-                                                                  authentication:auth];
-      if (didAuth) {
-        // Select the Twitter index
-        [mServiceSegments setSelectedSegmentIndex:1];
-      }
+  
+  // Perhaps we have a saved authorization for Twitter; try getting
+  // that from the keychain
+  GTMOAuthAuthentication *auth = [self authForTwitter];
+  if (auth) {
+    BOOL didAuth = [GTMOAuthViewControllerTouch authorizeFromKeychainForName:kTwitterKeychainItemName
+                                                              authentication:auth];
+    if (didAuth) {
+      // Select the Twitter index
+      [mServiceSegments setSelectedSegmentIndex:1];
     }
   }
-
+  
   // save the authentication object, which holds the auth tokens
   [self setAuthentication:auth];
 
@@ -114,19 +103,10 @@ static NSString *const kTwitterServiceName = @"Twitter";
   return isSignedIn;
 }
 
-- (BOOL)isGoogleSegmentSelected {
-  int segmentIndex = [mServiceSegments selectedSegmentIndex];
-  return (segmentIndex == 0);
-}
-
 - (IBAction)signInOutClicked:(id)sender {
   if (![self isSignedIn]) {
     // sign in
-    if ([self isGoogleSegmentSelected]) {
-      [self signInToGoogle];
-    } else {
-      [self signInToTwitter];
-    }
+    [self signInToTwitter];
   } else {
     // sign out
     [self signOut];
@@ -141,14 +121,6 @@ static NSString *const kTwitterServiceName = @"Twitter";
 }
 
 - (void)signOut {
-  if ([[mAuth serviceProvider] isEqual:kGTMOAuthServiceProviderGoogle]) {
-    // remove the token from Google's servers
-    [GTMOAuthViewControllerTouch revokeTokenForGoogleAuthentication:mAuth];
-  }
-
-  // remove the stored Google authentication from the keychain, if any
-  [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:kKeychainItemName];
-
   // remove the stored Twitter authentication from the keychain, if any
   [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:kTwitterKeychainItemName];
 
@@ -156,39 +128,6 @@ static NSString *const kTwitterServiceName = @"Twitter";
   [self setAuthentication:nil];
 
   [self updateUI];
-}
-
-- (void)signInToGoogle {
-  [self signOut];
-
-  NSString *keychainItemName = nil;
-  if ([self shouldSaveInKeychain]) {
-    keychainItemName = kKeychainItemName;
-  }
-
-  // For GTM applications, the scope is available as
-  //   NSString *scope = [[service class] authorizationScope]
-  NSString *scope = @"http://www.google.com/m8/feeds/";
-
-  // ### Important ###
-  // GTMOAuthViewControllerTouch is not designed to be reused. Make a new
-  // one each time you are going to show it.
-
-  // Display the autentication view.
-  GTMOAuthViewControllerTouch *viewController = [[[GTMOAuthViewControllerTouch alloc]
-            initWithScope:scope
-                 language:nil
-           appServiceName:keychainItemName
-                 delegate:self
-         finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
-
-  // You can set the title of the navigationItem of the controller here, if you want.
-
-  // Optional: display some html briefly before the sign-in page loads
-  NSString *html = @"<html><body bgcolor=silver><div align=center>Loading sign-in page...</div></body></html>";
-  [viewController setInitialHTMLString:html];
-
-  [[self navigationController] pushViewController:viewController animated:YES];
 }
 
 - (GTMOAuthAuthentication *)authForTwitter {
@@ -309,14 +248,8 @@ static NSString *const kTwitterServiceName = @"Twitter";
 }
 
 - (void)doAnAuthenticatedAPIFetch {
-  NSString *urlStr;
-  if ([self isGoogleSegmentSelected]) {
-    // Google Contacts feed
-    urlStr = @"http://www.google.com/m8/feeds/contacts/default/thin";
-  } else {
-    // Twitter status feed
-    urlStr = @"http://api.twitter.com/1/statuses/home_timeline.json";
-  }
+  // Twitter status feed
+  NSString *urlStr = @"http://api.twitter.com/1/statuses/home_timeline.json";
 
   NSURL *url = [NSURL URLWithString:urlStr];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];

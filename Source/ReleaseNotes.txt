@@ -3,6 +3,12 @@ GTM OAuth Release Notes
 Project site:     http://code.google.com/p/gtm-oauth/
 Discussion group: http://groups.google.com/group/gtm-oauth
 
+31-August-2012
+
+Google-specific support removed, as Google has deprecated OAuth 1 in
+favor of OAuth 2.
+
+
 2-August-2011
 
 Projects may now define GTM_OAUTH_SKIP_GOOGLE_SUPPORT to exclude

@@ -15,21 +15,32 @@
 
 // GTMOAuthWindowController
 //
-// This window controller for Mac handles sign-in via OAuth to Google or
-// other services.
+// This window controller for Mac handles sign-in via OAuth.
 //
 // This controller is not reusable; create a new instance of this controller
 // every time the user will sign in.
 //
 // Sample usage:
 //
-//  static NSString *const kAppServiceName = @”My Application: Google Contacts”;
-//  NSString *scope = @"http://www.google.com/m8/feeds/";
+//  static NSString *const kAppServiceName = @”My Application: Service API”;
+//  NSString *scope = @"read/write";
 //
-//  GTMOAuthWindowController *controller = [[[GTMOAuthWindowController alloc] initWithScope:scope
-//                                                                                     language:nil
-//                                                                               appServiceName:kAppServiceName
-//                                                                               resourceBundle:nil] autorelease];
+//  GTMOAuthAuthentication *auth =
+//    [[[GTMOAuthAuthentication alloc] initWithSignatureMethod:kGTMOAuthSignatureMethodHMAC_SHA1
+//                                                 consumerKey:myConsumerKey
+//                                                  privateKey:myConsumerSecret] autorelease];
+//
+//  [auth setCallback:@"http://www.example.com/OAuthCallback"];
+//
+//  GTMOAuthWindowController *controller =
+//      [[[GTMOAuthWindowController alloc] initWithScope:scope
+//                                              language:nil
+//                                       requestTokenURL:requestURL
+//                                     authorizeTokenURL:authorizeURL
+//                                        accessTokenURL:accessURL
+//                                        authentication:auth
+//                                        appServiceName:kKeychainItemName
+//                                        resourceBundle:nil] autorelease];
 //  [controller signInSheetModalForWindow:currentWindow
 //                               delegate:self
 //                       finishedSelector:@selector(windowController:finishedWithAuth:error:)];
@@ -52,9 +63,6 @@
 //     //    [auth authorizeRequest:myNSURLMutableRequest]
 //    }
 //  }
-//
-// To sign in to services other than Google, use the longer init method,
-// as shown in the sample application
 //
 // If the network connection is lost for more than 30 seconds while the sign-in
 // html is displayed, the notification kGTLOAuthNetworkLost will be sent.
@@ -180,28 +188,7 @@
 
 - (IBAction)closeWindow:(id)sender;
 
-// init method for authenticating to Google services
-//
-// scope is the requested scope of authorization
-//   (like "http://www.google.com/m8/feeds")
-//
-// language is nil or the desired display language code (like "es")
-//
-// appServiceName is used for storing the token on the keychain,
-//   and is required for the "remember for later" checkbox to be shown;
-//   appServiceName should be like "My Application: Google Contacts"
-//   (or set to nil if no persistent keychain storage is desired)
-//
-// resourceBundle may be nil if the window is in the main bundle's nib
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-- (id)initWithScope:(NSString *)scope
-           language:(NSString *)language               // may be nil
-     appServiceName:(NSString *)keychainAppServiceName // may be nil
-     resourceBundle:(NSBundle *)bundle;                // may be nil
-#endif
-
-// init method for authenticating to non-Google services, taking
-//   explicit endpoint URLs and an authentication object
+// init method
 //
 // this is the designated initializer
 - (id)initWithScope:(NSString *)scope
@@ -225,9 +212,8 @@
 //
 //     [authorizer authorizeRequest:myNSMutableURLRequest];
 //
-// or can be stored in a GTL service object like
-//   GTLServiceGoogleContact *service = [self contactService];
-//   [service setAuthorizer:auth];
+// or can be stored in a GTMHTTPFetcher like
+//   [fetcher setAuthorizer:auth];
 //
 // the delegate is retained only until the finished selector is invoked or
 //   the sign-in is canceled
@@ -245,27 +231,11 @@
 // subclasses may override authNibName to specify a custom name
 + (NSString *)authNibName;
 
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-// revocation of an authorized token from Google
-+ (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth;
-#endif
-
 // keychain
 //
 // The keychain checkbox is shown if the keychain application service
 // name (typically set in the initWithScope: method) is non-empty
 //
-
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-// Create an authentication object for Google services from the access
-// token and secret stored in the keychain; if no token is available, return
-// an unauthorized auth object
-+ (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName;
-
-+ (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName
-                                                 consumerKey:(NSString *)consumerKey
-                                                  privateKey:(NSString *)privateKey;
-#endif
 
 // Add tokens from the keychain, if available, to an authentication
 // object.  The authentication object must have previously been created.
