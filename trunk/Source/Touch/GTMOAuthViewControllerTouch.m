@@ -97,46 +97,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 @synthesize userData = userData_;
 @synthesize webView = webView_;
 
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-- (id)initWithScope:(NSString *)scope
-           language:(NSString *)language
-     appServiceName:(NSString *)keychainAppServiceName
-           delegate:(id)delegate
-   finishedSelector:(SEL)finishedSelector {
-  // convenient entry point for Google authentication
-  return [self initWithScope:scope
-                    language:language
-             requestTokenURL:nil
-           authorizeTokenURL:nil
-              accessTokenURL:nil
-              authentication:nil
-              appServiceName:keychainAppServiceName
-                    delegate:delegate
-            finishedSelector:finishedSelector];
-}
-
-#if NS_BLOCKS_AVAILABLE
-- (id)initWithScope:(NSString *)scope
-           language:(NSString *)language
-     appServiceName:(NSString *)keychainAppServiceName
-  completionHandler:(void (^)(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error))handler {
-  // convenient entry point for Google authentication
-  self = [self initWithScope:scope
-                    language:language
-             requestTokenURL:nil
-           authorizeTokenURL:nil
-              accessTokenURL:nil
-              authentication:nil
-              appServiceName:keychainAppServiceName
-                    delegate:nil
-            finishedSelector:NULL];
-  if (self) {
-    completionBlock_ = [handler copy];
-  }
-  return self;
-}
-#endif
-#endif // !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
 
 - (id)initWithScope:(NSString *)scope
            language:(NSString *)language
@@ -167,16 +127,7 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
                                             webRequestSelector:@selector(signIn:displayRequest:)
                                               finishedSelector:@selector(signIn:finishedWithAuth:error:)];
     } else {
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-      // use default Google auth and endpoint values
-      signIn_ = [[GTMOAuthSignIn alloc] initWithGoogleAuthenticationForScope:scope
-                                                                    language:language
-                                                                    delegate:self
-                                                          webRequestSelector:@selector(signIn:displayRequest:)
-                                                            finishedSelector:@selector(signIn:finishedWithAuth:error:)];
-#else
       NSAssert(0, @"auth object required");
-#endif
     }
 
     // the display name defaults to the bundle's name
@@ -189,19 +140,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
       }
     }
     [self setDisplayName:displayName];
-
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-    // if the user is signing in to a Google service, we'll delete the
-    // Google authentication browser cookies upon completion
-    //
-    // for other service domains, or to disable clearing of the cookies,
-    // set the browserCookiesURL property explicitly
-    NSString *authorizationHost = [[signIn_ authorizeTokenURL] host];
-    if ([authorizationHost isEqual:@"www.google.com"]) {
-      NSURL *cookiesURL = [NSURL URLWithString:@"https://www.google.com/accounts"];
-      [self setBrowserCookiesURL:cookiesURL];
-    }
-#endif
 
     [self setKeychainApplicationServiceName:keychainAppServiceName];
   }
@@ -258,15 +196,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   // subclasses may override this to specify a custom nib name
   return @"GTMOAuthViewTouch";
 }
-
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-+ (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName {
-  GTMOAuthAuthentication *newAuth = [GTMOAuthAuthentication authForInstalledApp];
-  [self authorizeFromKeychainForName:appServiceName
-                      authentication:newAuth];
-  return newAuth;
-}
-#endif
 
 + (BOOL)authorizeFromKeychainForName:(NSString *)appServiceName
                       authentication:(GTMOAuthAuthentication *)newAuth {
@@ -449,14 +378,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   [signIn_ cancelSigningIn];
   hasDoneFinalRedirect_ = YES;
 }
-
-#pragma mark Token Revocation
-
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-+ (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth {
-  [GTMOAuthSignIn revokeTokenForGoogleAuthentication:auth];
-}
-#endif
 
 #pragma mark Browser Cookies
 

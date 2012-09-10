@@ -15,30 +15,7 @@
 
 #import "OAuthSampleAppController.h"
 
-@interface OAuthSampleAppController ()
-- (void)signInToGoogle;
-- (void)signInToTwitter;
-
-- (void)signOut;
-- (BOOL)isSignedIn;
-
-- (void)doAnAuthenticatedAPIFetch;
-- (GTMOAuthAuthentication *)authForTwitter;
-
-- (void)windowController:(GTMOAuthWindowController *)windowController
-        finishedWithAuth:(GTMOAuthAuthentication *)auth
-                   error:(NSError *)error;
-- (void)updateUI;
-- (void)displayErrorThatTheCodeNeedsATwitterConsumerKeyAndSecret;
-- (void)setAuthentication:(GTMOAuthAuthentication *)auth;
-- (void)signInFetchStateChanged:(NSNotification *)note;
-- (void)signInNetworkLost:(NSNotification *)note;
-@end
-
-
 @implementation OAuthSampleAppController
-
-static NSString *const kKeychainItemName = @"OAuth Sample: Google Contacts";
 
 static NSString *const kTwitterKeychainItemName = @"OAuth Sample: Twitter";
 
@@ -52,28 +29,13 @@ static NSString *const kTwitterServiceName = @"Twitter";
   // "keychainForName" methods in the interface.  The keychain item
   // names are up to the application, and may reflect multiple accounts for
   // one or more services.
-  //
-  // This sample app may have saved one Google authentication and one Twitter
-  // auth.  First, we'll try to get the saved Google authentication, if any.
-  GTMOAuthAuthentication *auth;
-  auth = [GTMOAuthWindowController authForGoogleFromKeychainForName:kKeychainItemName];
-
-  if ([auth canAuthorize]) {
-    // Select the Google radio button
-    [mRadioButtons selectCellWithTag:0];
-  } else {
-    // There is no saved Google authentication
-    //
-    // Perhaps we have a saved authorization for Twitter instead; try getting
-    // that from the keychain
-    auth = [self authForTwitter];
-    if (auth) {
-      BOOL didAuth = [GTMOAuthWindowController authorizeFromKeychainForName:kTwitterKeychainItemName
-                                                               authentication:auth];
-      if (didAuth) {
-        // select the Twitter radio button
-        [mRadioButtons selectCellWithTag:1];
-      }
+  GTMOAuthAuthentication *auth = [self authForTwitter];
+  if (auth) {
+    BOOL didAuth = [GTMOAuthWindowController authorizeFromKeychainForName:kTwitterKeychainItemName
+                                                           authentication:auth];
+    if (didAuth) {
+      // select the Twitter radio button
+      [mRadioButtons selectCellWithTag:1];
     }
   }
 
@@ -109,11 +71,6 @@ static NSString *const kTwitterServiceName = @"Twitter";
   [super dealloc];
 }
 
-- (BOOL)isGoogleButtonSelected {
-  int tag = [[mRadioButtons selectedCell] tag];
-  return (tag == 0);
-}
-
 #pragma mark -
 
 - (BOOL)isSignedIn {
@@ -124,11 +81,7 @@ static NSString *const kTwitterServiceName = @"Twitter";
 - (IBAction)signInOutClicked:(id)sender {
   if (![self isSignedIn]) {
     // sign in
-    if ([self isGoogleButtonSelected]) {
-      [self signInToGoogle];
-    } else {
-      [self signInToTwitter];
-    }
+    [self signInToTwitter];
   } else {
     // sign out
     [self signOut];
@@ -137,14 +90,6 @@ static NSString *const kTwitterServiceName = @"Twitter";
 }
 
 - (void)signOut {
-  if ([[mAuth serviceProvider] isEqual:kGTMOAuthServiceProviderGoogle]) {
-    // remove the token from Google's servers
-    [GTMOAuthWindowController revokeTokenForGoogleAuthentication:mAuth];
-  }
-
-  // remove the stored Google authentication from the keychain, if any
-  [GTMOAuthWindowController removeParamsFromKeychainForName:kKeychainItemName];
-
   // remove the stored Twitter authentication from the keychain, if any
   [GTMOAuthWindowController removeParamsFromKeychainForName:kTwitterKeychainItemName];
 
@@ -152,29 +97,6 @@ static NSString *const kTwitterServiceName = @"Twitter";
   [self setAuthentication:nil];
 
   [self updateUI];
-}
-
-- (void)signInToGoogle {
-  [self signOut];
-
-  // For Google API applications, the scope is available as
-  //   NSString *scope = [[service class] authorizationScope]
-  NSString *scope = @"http://www.google.com/m8/feeds/";
-
-  // display the autentication sheet
-  GTMOAuthWindowController *windowController;
-  windowController = [[[GTMOAuthWindowController alloc] initWithScope:scope
-                                                               language:nil
-                                                         appServiceName:kKeychainItemName
-                                                         resourceBundle:nil] autorelease];
-
-  // optional: display some html briefly before the sign-in page loads
-  NSString *html = @"<html><body><div align=center>Loading sign-in page...</div></body></html>";
-  [windowController setInitialHTMLString:html];
-
-  [windowController signInSheetModalForWindow:mMainWindow
-                                     delegate:self
-                             finishedSelector:@selector(windowController:finishedWithAuth:error:)];
 }
 
 - (GTMOAuthAuthentication *)authForTwitter {
@@ -263,9 +185,9 @@ static NSString *const kTwitterServiceName = @"Twitter";
     //
     //   [auth authorizeRequest:myNSURLMutableRequest]
     //
-    // or store the authentication object into a Google API service object like
+    // or store the authentication object into a GTMHTTPFetcher object like
     //
-    //   [[self contactService] setAuthorizer:auth];
+    //   [fetcher setAuthorizer:auth];
 
     // save the authentication object
     [self setAuthentication:auth];
@@ -281,14 +203,8 @@ static NSString *const kTwitterServiceName = @"Twitter";
 #pragma mark -
 
 - (void)doAnAuthenticatedAPIFetch {
-  NSString *urlStr;
-  if ([self isGoogleButtonSelected]) {
-    // Google Contacts feed
-    urlStr = @"http://www.google.com/m8/feeds/contacts/default/thin";
-  } else {
-    // Twitter status feed
-    urlStr = @"http://api.twitter.com/1/statuses/home_timeline.json";
-  }
+  // Twitter status feed
+  NSString *urlStr = @"http://api.twitter.com/1/statuses/home_timeline.json";
 
   NSURL *url = [NSURL URLWithString:urlStr];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];

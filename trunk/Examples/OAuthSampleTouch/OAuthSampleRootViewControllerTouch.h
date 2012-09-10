@@ -34,7 +34,6 @@
 - (IBAction)signInOutClicked:(id)sender;
 - (IBAction)toggleShouldSaveInKeychain:(id)sender;
 
-- (void)signInToGoogle;
 - (void)signInToTwitter;
 - (void)signOut;
 - (BOOL)isSignedIn;

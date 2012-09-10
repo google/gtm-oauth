@@ -16,22 +16,26 @@
 //
 // GTMOAuthViewControllerTouch.h
 //
-// This view controller for iPhone handles sign-in via OAuth to Google or
-// other services.
+// This view controller for iPhone handles sign-in via OAuth.
 //
 // This controller is not reusable; create a new instance of this controller
 // every time the user will sign in.
 //
 // Sample usage:
 //
-//  static NSString *const kAppServiceName = @”My Application: Google Contacts”;
-//  NSString *scope = @"http://www.google.com/m8/feeds/";
+//  static NSString *const kAppServiceName = @”My Application: My API”;
+//  NSString *scope = @"read/write";
 //
-//  GTMOAuthViewControllerTouch *viewController = [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
-//                                                                                               language:nil
-//                                                                                         appServiceName:kAppServiceName
-//                                                                                               delegate:self
-//                                                                                       finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
+//  GTMOAuthViewControllerTouch *viewController =
+//    [[[GTMOAuthViewControllerTouch alloc] initWithScope:scope
+//                                               language:nil
+//                                        requestTokenURL:requestURL
+//                                      authorizeTokenURL:authorizeURL
+//                                         accessTokenURL:accessURL
+//                                         authentication:auth
+//                                         appServiceName:kAppServiceName
+//                                               delegate:self
+//                                       finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
 //  [[self navigationController] pushViewController:viewController
 //                                         animated:YES];
 //
@@ -45,17 +49,14 @@
 //    } else {
 //     // sign in succeeded
 //     //
-//     // with the GTL library, pass the authentication to the service object,
+//     // With a GTMHTTPFetcher, use the auth object as an authorizer,
 //     // like
-//     //   [[self contactService] setAuthorizer:auth];
+//     //   [fetcher setAuthorizer:auth];
 //     //
 //     // or use it to sign a request directly, like
 //     //    [auth authorizeRequest:myNSURLMutableRequest]
 //    }
 //  }
-//
-// To sign in to services other than Google, use the longer init method,
-// as shown in the sample application
 //
 // If the network connection is lost for more than 10 seconds while the sign-in
 // html is displayed, the view will be dismissed and the callback method
@@ -79,7 +80,7 @@
 #define _INITIALIZE_AS(x)
 #endif
 
-_EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.google.GTMOAuthKeychain");
+_EXTERN NSString* const kGTLOAuthKeychainErrorDomain _INITIALIZE_AS(@"com.google.GTMOAuthKeychain");
 
 
 @class GTMOAuthSignIn;
@@ -174,47 +175,13 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
 // sign-in page is 10 seconds; set this to 0 to have no timeout
 @property (nonatomic, assign) NSTimeInterval networkLossTimeoutInterval;
 
-// if set, cookies are deleted for this URL when the view is hidden
-//
-// For Google sign-ins, this is set by default to https://google.com/accounts
-// but it may be explicitly set to nil to disable clearing of browser cookies
+// If set, cookies are deleted for this URL when the view is hidden
 @property (nonatomic, retain) NSURL *browserCookiesURL;
 
 @property (nonatomic, retain) id userData;
 
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-// init method for authenticating to Google services
-//
-// scope is the requested scope of authorization
-//   (like "http://www.google.com/m8/feeds")
-//
-// language is nil or the desired display language code (like "es")
-//
-// keychain appServiceName is used for storing the token on the keychain,
-//   appServiceName should be like "My Application: Google Contacts"
-//   (or set to nil if no persistent keychain storage is desired)
-//
-// the delegate is retained only until the finished selector is invoked
-//   or the sign-in is canceled
-//
-// If you don't like the default nibName and bundle, you can change them
-// using the UIViewController properties once you've made one of these.
-- (id)initWithScope:(NSString *)scope
-           language:(NSString *)language
-     appServiceName:(NSString *)keychainAppServiceName
-           delegate:(id)delegate
-   finishedSelector:(SEL)finishedSelector;
-
-#if NS_BLOCKS_AVAILABLE
-- (id)initWithScope:(NSString *)scope
-           language:(NSString *)language
-     appServiceName:(NSString *)keychainAppServiceName
-  completionHandler:(void (^)(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error))handler;
-#endif
-#endif // !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-
-// init method for authenticating to non-Google services, taking
-//   explicit endpoint URLs and an authentication object
+// init method for authenticating, taking endpoint URLs and an authentication
+// object
 //
 // this is the designated initializer
 - (id)initWithScope:(NSString *)scope
@@ -251,21 +218,9 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain       _INITIALIZE_AS(@"com.
 
 - (void)cancelSigningIn;
 
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-// revocation of an authorized token from Google
-+ (void)revokeTokenForGoogleAuthentication:(GTMOAuthAuthentication *)auth;
-#endif
-
 //
 // Keychain
 //
-
-#if !GTM_OAUTH_SKIP_GOOGLE_SUPPORT
-// Create an authentication object for Google services from the access
-// token and secret stored in the keychain; if no token is available, return
-// an unauthorized auth object
-+ (GTMOAuthAuthentication *)authForGoogleFromKeychainForName:(NSString *)appServiceName;
-#endif
 
 // Add tokens from the keychain, if available, to an authentication
 // object.  The authentication object must have previously been created.
