@@ -21,8 +21,6 @@ The OAuth controllers are useful for authenticating to a variety of services whi
 
 There are example iOS and Mac applications using the OAuth controllers in the library's [http://code.google.com/p/gtm-oauth/source/browse/#svn/trunk/Examples Examples directory].
 
-Controller methods with "Google" in the name are for use only with Google services.  However, Google services support OAuth 1 sign-in for backwards compatibility only, as Google now recommends that applications use OAuth 2 and the [http://code.google.com/p/gtm-oauth2/ gtm-oauth2] controllers.
-
 == Adding the Controllers to Your Project ==
 
 The project has targets for building a static library for iOS and a framework for Mac OS X. Alternatively, the source files and xibs may be dragged directly into your project file and compiled with your application.
@@ -54,7 +52,7 @@ The OAuth controllers require linking to the system frameworks Security.framewor
 
 To sign in to a service, you should consult the service's API documentation to obtain a pre-assigned consumer key and secret string, and to find the required scope string for API operations.
 
-To use the OAuth 1 controllers with services other than Google APIs, your application should create an authentication object with the appropriate keys, like this:
+To use the OAuth 1 controllers with services, your application should create an authentication object with the appropriate keys, like this:
 {{{
 - (GTMOAuthAuthentication *)myCustomAuth {
   NSString *myConsumerKey = @"abcd";    // pre-registered with service
