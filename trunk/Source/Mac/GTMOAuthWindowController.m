@@ -270,6 +270,8 @@ const char *kKeychainAccountName = "OAuth";
 - (void)destroyWindow {
   // no request; close the window (but not immediately, in case
   // we're called in response to some window event)
+  [[self webView] stopLoading:nil];
+
   if (sheetModalForWindow_) {
     [NSApp endSheet:[self window]];
   } else {
