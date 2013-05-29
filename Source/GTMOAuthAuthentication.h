@@ -134,8 +134,8 @@ _EXTERN NSString* const kGTMOAuthSignatureMethodRSA_SHA1  _INITIALIZE_AS(@"RSA-S
 // The verified string can be checked with -boolValue. If the result is false,
 // then the email address is listed with the account on the server, but the
 // address has not been confirmed as belonging to the owner of the account.
-@property (nonatomic, copy) NSString *userEmail;
-@property (nonatomic, copy) NSString *userEmailIsVerified;
+@property (retain) NSString *userEmail;
+@property (retain) NSString *userEmailIsVerified;
 
 // property for using a previously-authorized access token
 @property (nonatomic, copy) NSString *accessToken;
@@ -146,7 +146,7 @@ _EXTERN NSString* const kGTMOAuthSignatureMethodRSA_SHA1  _INITIALIZE_AS(@"RSA-S
 
 // property indicating if this auth has an access token so is suitable for
 // authorizing a request. This does not guarantee that the token is valid.
-@property (nonatomic, readonly) BOOL canAuthorize;
+@property (readonly) BOOL canAuthorize;
 
 // userData is retained for the convenience of the caller
 @property (nonatomic, retain) id userData;
