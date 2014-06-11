@@ -336,6 +336,8 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 
 
 - (void)viewDidLoad {
+  [super viewDidLoad];
+
   // the app may prefer some html other than blank white to be displayed
   // before the sign-in web page loads
   NSString *html = [self initialHTMLString];
