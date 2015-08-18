@@ -1,7 +1,10 @@
-GTM OAuth Release Notes
+# GTM OAuth: Google Toolbox for Mac - OAuth Controllers #
 
-Project site:     http://code.google.com/p/gtm-oauth/
-Discussion group: http://groups.google.com/group/gtm-oauth
+**Project site** <https://github.com/google/gtm-oauth>
+**Discussion group** <http://groups.google.com/group/gtm-oauth>
+
+
+## Release History ##
 
 31-August-2012
 
