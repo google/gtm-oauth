@@ -1,6 +1,6 @@
 # GTM OAuth: Google Toolbox for Mac - OAuth Controllers #
 
-**Project site** <https://github.com/google/gtm-oauth>
+**Project site** <https://github.com/google/gtm-oauth><br>
 **Discussion group** <http://groups.google.com/group/gtm-oauth>
 
 
