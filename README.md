@@ -18,7 +18,7 @@ Features include:
 
 **If you have a problem** or want a new feature to be included in the library,
 please join the [GTM-OAuth discussion group](http://groups.google.com/group/gtm-oauth)
-or submit an [issue](http://code.google.com/p/gtm-oauth/issues/list).
+or submit an [issue](https://github.com/google/gtm-oauth/issues).
 
 The library incorporates the
 [GTM HTTP Fetcher project](https://github.com/google/gtm-http-fetcher/).
