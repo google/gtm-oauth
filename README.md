@@ -3,45 +3,28 @@
 **Project site** <https://github.com/google/gtm-oauth><br>
 **Discussion group** <http://groups.google.com/group/gtm-oauth>
 
+The Google Toolbox for Mac OAuth Controllers make it easy for Cocoa
+applications to sign in to services using OAuth for authentication and
+authorization.
 
-## Release History ##
+Features include:
+- Complete embedded user interface using WebKit
+- Works with Google APIs and with any standard OAuth provider
+- Handles sign-in, keychain storage of authorization token, and signing of requests
+- Independent of other projects
 
-31-August-2012
+**To get started** with GTM OAuth, read the
+[wiki](https://github.com/google/gtm-oauth/wiki).
 
-Google-specific support removed, as Google has deprecated OAuth 1 in
-favor of OAuth 2.
+**If you have a problem** or want a new feature to be included in the library,
+please join the [GTM-OAuth discussion group](http://groups.google.com/group/gtm-oauth)
+or submit an [issue](http://code.google.com/p/gtm-oauth/issues/list).
 
+The library incorporates the
+[GTM HTTP Fetcher project](https://github.com/google/gtm-http-fetcher/).
 
-2-August-2011
+This project is for controllers for services using the OAuth 1 protocol.
+There is a separate project for [OAuth 2 controllers](https://github.com/google/gtm-oauth2).
 
-Projects may now define GTM_OAUTH_SKIP_GOOGLE_SUPPORT to exclude
-Google-specific code. The GTMOAuth project file also now includes
-"non-Google" targets for building without Google-specific code.
-
-
-25-May-2011
-
-Mac window controller now opens pop-up window links in an external browser
-by default, and provides an externalRequestSelector property to let the
-client provide custom handling.
-
-
-22-Mar-2011
-
-Added +scopeWithStrings: utility method.
-
-
-18-Oct-2010
-
-Fix issue handling URLs with ports. (thanks dunhamsteve)
-
-
-4-Oct-2010
-
-Update SignIn object to retain the controller during sign-in.
-
-
-Release 1.0.0
-9-Sept-2010
-
-Initial public release.
+Other useful classes for OS X and iOS developers are available in the
+[Google Toolbox for Mac](https://github.com/google/google-toolbox-for-mac/).
