@@ -123,11 +123,6 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain _INITIALIZE_AS(@"com.google
 
   id userData_;
 
-  // We delegate the decision to our owning NavigationController (if any).
-  // But, the NavigationController will call us back, and ask us.
-  // BOOL keeps us from infinite looping.
-  BOOL isInsideShouldAutorotateToInterfaceOrientation_;
-
   // YES, when view first shown in this signIn session.
   BOOL isViewShown_;
 
@@ -204,10 +199,6 @@ _EXTERN NSString* const kGTLOAuthKeychainErrorDomain _INITIALIZE_AS(@"com.google
      appServiceName:(NSString *)keychainAppServiceName
   completionHandler:(void (^)(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error))handler;
 #endif
-
-// Override default in UIViewController. If we have a navigationController, ask
-// it. else default result (i.e., Portrait mode only).
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
 // Subclasses may override authNibName to specify a custom name
 + (NSString *)authNibName;

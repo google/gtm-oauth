@@ -76,9 +76,7 @@ static GTMOAuthKeychain* sDefaultKeychain = nil;
 - (void)signIn:(GTMOAuthSignIn *)signIn displayRequest:(NSURLRequest *)request;
 - (void)signIn:(GTMOAuthSignIn *)signIn
 finishedWithAuth:(GTMOAuthAuthentication *)auth
-         error:(NSError *)error;  
-- (BOOL)isNavigationBarTranslucent;
-- (void)moveWebViewFromUnderNavigationBar;
+         error:(NSError *)error;
 - (void)popView;
 - (void)clearBrowserCookies;
 @end
@@ -522,24 +520,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   }
 }
 
-- (void)moveWebViewFromUnderNavigationBar {
-  CGRect dontCare;
-  CGRect webFrame = [[self view] bounds];
-  UINavigationBar *navigationBar = [[self navigationController] navigationBar];
-  CGRectDivide(webFrame, &dontCare, &webFrame,
-    [navigationBar frame].size.height, CGRectMinYEdge);
-  [[self webView] setFrame:webFrame];
-}
-
-// isTranslucent is defined in iPhoneOS 3.0 on.
-- (BOOL)isNavigationBarTranslucent {
-  UINavigationBar *navigationBar = [[self navigationController] navigationBar];
-  BOOL isTranslucent =
-    ([navigationBar respondsToSelector:@selector(isTranslucent)] &&
-     [navigationBar isTranslucent]);
-  return isTranslucent;
-}
-
 #pragma mark -
 #pragma mark Protocol implementations
 
@@ -547,9 +527,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
   [super viewWillAppear:animated];
   if (!isViewShown_) {
     isViewShown_ = YES;
-    if ([self isNavigationBarTranslucent]) {
-      [self moveWebViewFromUnderNavigationBar];
-    }
     if (![signIn_ startSigningIn]) {
       // Can't start signing in. We must pop our view.
       // UIWebview needs time to stabilize. Animations need time to complete.
@@ -606,22 +583,6 @@ finishedWithAuth:(GTMOAuthAuthentication *)auth
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
   [self updateUI];
 }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  BOOL value = YES;
-  if (!isInsideShouldAutorotateToInterfaceOrientation_) {
-    isInsideShouldAutorotateToInterfaceOrientation_ = YES;
-    UIViewController *navigationController = [self navigationController];
-    if (navigationController != nil) {
-      value = [navigationController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    } else {
-      value = [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
-    isInsideShouldAutorotateToInterfaceOrientation_ = NO;
-  }
-  return value;
-}
-
 
 @end
 
